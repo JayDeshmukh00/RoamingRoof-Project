@@ -1,0 +1,52 @@
+<%layout("/layouts/boilerplate")%>
+<body>
+    <div class="row">
+    <div class="col-8 offset-2">
+    <h3>Create new listing:</h3>
+  <form action="/listings"method="post">
+    <div class="mt-3">
+        <label for="title" class="form-label"><b>Title</b></label>
+        <input type="text"name="listing[title]"placeholder="Enter the title" class="form-control">
+    </div>
+        
+        <div class="mt-3">
+            <label for="description" class="form-label"><b>Description</b></label>
+            <textarea name="listing[description]" placeholder="Give Description" class="form-control"></textarea>
+        </div>
+        
+        <div class="mt-3">
+            <label for="image" class="form-label"><b>Image</b></label>
+            <input type="text"name="listing[image]"placeholder="Upload Image"class="form-control">
+        </div>
+        
+        <div class="row">
+
+            
+            <div class="col-md-8 mt-3">
+                <label for="location" class="form-label"><b>Location</b></label>
+                <input type="text" name="listing[location]"placeholder="Enter Location"class="form-control">
+            </div>
+
+            <div class="col-md-4 mt-3">
+                <label for="country"class="form-label"><b>Country</b></label>
+                <input type="text"name="listing[country]"placeholder="Enter Country"class="form-control">
+            </div>
+
+
+            
+        </div>
+        
+       
+       <div class="mt-3">
+        <label for="price"class="form-label"><b>Price</b></label>
+        <input type="number"name="listing[price]"placeholder="Enter Price"class="form-control">
+    </div>
+        
+        
+<br>
+        <button class=" btn btn-danger"> Add</button>
+        <br><br>
+    </form>
+</div>
+</div>
+</body>
