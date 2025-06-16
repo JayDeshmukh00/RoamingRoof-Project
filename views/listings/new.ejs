@@ -3,15 +3,17 @@
     <div class="row">
     <div class="col-8 offset-2">
     <h3>Create new listing:</h3>
-  <form action="/listings"method="post">
+  <form action="/listings"method="post" novalidate class="needs-validation">
     <div class="mt-3">
         <label for="title" class="form-label"><b>Title</b></label>
-        <input type="text"name="listing[title]"placeholder="Enter the title" class="form-control">
+        <input type="text"name="listing[title]"placeholder="Enter the title" class="form-control" required>
+         <div class="valid-feedback">title looks good</div>
     </div>
         
         <div class="mt-3">
             <label for="description" class="form-label"><b>Description</b></label>
-            <textarea name="listing[description]" placeholder="Give Description" class="form-control"></textarea>
+            <textarea name="listing[description]" placeholder="Give Description" class="form-control" required></textarea>
+             <div class="invalid-feedback">please provide description</div>
         </div>
         
         <div class="mt-3">
@@ -24,12 +26,14 @@
             
             <div class="col-md-8 mt-3">
                 <label for="location" class="form-label"><b>Location</b></label>
-                <input type="text" name="listing[location]"placeholder="Enter Location"class="form-control">
+                <input type="text" name="listing[location]"placeholder="Enter Location"class="form-control" required>
+                  <div class="invalid-feedback">please enter location</div>
             </div>
 
             <div class="col-md-4 mt-3">
                 <label for="country"class="form-label"><b>Country</b></label>
-                <input type="text"name="listing[country]"placeholder="Enter Country"class="form-control">
+                <input type="text"name="listing[country]"placeholder="Enter Country"class="form-control"required>
+                <div class="invalid-feedback">enter the country field</div>
             </div>
 
 
@@ -39,7 +43,8 @@
        
        <div class="mt-3">
         <label for="price"class="form-label"><b>Price</b></label>
-        <input type="number"name="listing[price]"placeholder="Enter Price"class="form-control">
+        <input name="listing[price]"placeholder="Enter Price"class="form-control" required>
+        <div class="invalid-feedback">enter the price in correct format</div>
     </div>
         
         
