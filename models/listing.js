@@ -12,9 +12,8 @@ type:String,
 required:true,
     },
     image: {
-        type:String,
-        default: "https://images.pexels.com/photos/23696832/pexels-photo-23696832/free-photo-of-palm-trees-in-a-sea-resort-at-night.jpeg",
-        set: (v) => v || "https://images.pexels.com/photos/23696832/pexels-photo-23696832/free-photo-of-palm-trees-in-a-sea-resort-at-night.jpeg"
+       url:String,
+       filename:String,
     }
     ,
    price:{
@@ -37,7 +36,10 @@ reviews:[
         ref:"Review"
     }
 ],
-
+owner:{
+    type:Schema.Types.ObjectId,
+    ref:"User",
+}
 
 
 } )

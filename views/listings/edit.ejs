@@ -24,7 +24,7 @@
     <div class="row">
     <div class="col-8 offset-2">
     <h3>create new listing</h3>
-    <form action="/listings/<%=listing._id%>?_method=put" method="post" novalidate class="needs-validation">
+    <form action="/listings/<%=listing._id%>?_method=put" method="post" novalidate class="needs-validation"enctype="multipart/form-data">
     <div class="mt-3">
         <label for="title" class="form-label"><b>Title</b></label>
         <input type="text"name="listing[title]"placeholder="Enter the title" class="form-control"value="<%=listing.title%>" required>
@@ -36,11 +36,19 @@
             <textarea name="listing[description]" placeholder="Give Description" class="form-control" required>"<%=listing.description%>"</textarea>
              <div class="invalid-feedback">please provide description</div>
         </div>
+
+         <div class="mt-3">
+           Original image <br>
+           <img src="<%= originalImageUrl %>" alt="Preview Image" style="height: 200px; width: 300px; object-fit: cover; border-radius:10px">
+
+            
+        </div>
+
         
         <div class="mt-3">
-            <label for="image" class="form-label"> <b>Image</b></label>
-            <input type="text"name="listing[image]"placeholder="Upload Image"class="form-control"value="<%=listing.image%>" required>
-             <div class="invalid-feedback">link for image is missing</div>
+            <label for="image" class="form-label"> <b>Upload new Image</b></label>
+            <input type="file"name="listing[image]"class="form-control">
+            
         </div>
         
         <div class="row">

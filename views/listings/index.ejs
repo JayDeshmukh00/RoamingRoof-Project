@@ -1,11 +1,31 @@
 <%layout("/layouts/boilerplate")%>
+<!-- <div class="row">
+  
+  <% if (typeof success !== 'undefined' && success.length) { %>
+  <div class="alert alert-success mt-3 col-md-4 alert-dismissible fade show">
+    <%= success[0] %>
+    <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+    >
+      
+    </button>
+  </div>
+<% } %>
+</div> -->
+
+
+    
+
 <body>
 <h3>All Listings</h3>
 <div class="row row-cols-lg-3  row-cols-md-2 row-cols-sm-1 g-4">
 <%for(let listing of allListings){%>
   <a href="/listings/<%=listing._id%>" class="listing-link">
     <div class="card  listing-card">
-        <img src="<%=listing.image%>" class="card-img-top" alt="listing-imag" style="height:20rem">
+        <img src="<%=listing.image.url%>" class="card-img-top" alt="listing-imag" style="height:20rem">
         <div class="card-img-overlay"></div>
         <div class="card-body">
           <p class="card-text"><b>Title:<%=listing.title%></b> <br><b>Location:</b><%=listing.location%> <br><b>Country:</b><%=listing.country%> <br><b>Price:</b>&#8377;<%=listing.price.toLocaleString("en-IN")%></p>
