@@ -1,23 +1,60 @@
+<style>
+  .search-btn{
+    background-color:#fe424d;
+    color:#fff;
+       border-radius:25px;
+     padding:0 1rem 0 1rem;
+     scale:0.8;
+ 
+  }
+  .search-btn:hover{
+    background-color:#fe424d;
+    color:white;
+  }
+  .search-btn i{
+    display:inline;
+    margin-right:0.5rem;
+ 
+   
+  }
+  .search input{
+     border-radius:25px;
+    margin-right:5rem;
+    padding:1rem 3rem 1rem 3rem;
+  }
+</style>
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/"><i class="fa-brands fa-phoenix-framework  logo"></i>RoamingRoof</a>
+
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+  <img src="/icons/house.png" alt="RoamingRoof Logo" style="height: 40px; width: 40px; object-fit: contain;" />
+  <span style="font-weight: 700; font-size: 1.5rem; color:#fe424d;">RoamingRoof</span>
+</a>
+
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" >
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link"  href="/">Home</a>
-          <a class="nav-link" href="/listings">All Listings</a>
-          <a class="nav-link" href="/listings/new">Add new Listing</a>
-          
-        </div>
+          <a class="nav-link"  href="/listings"><b>Explore</b></a>
+       </div>
+
+       <div class="navbar-nav ms-auto search">
+        <form class="d-flex" role="search">
+      <input class="form-control me-2 search-input" type="search" placeholder="Search Destination" />
+      <button class=" btn search-btn " type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
+    </form>
+       </div>
+
+
         <div class="navbar-nav ms-auto">
+           <a class="nav-link" href="/listings/new"><b>Become a Host</b></a>
           <% if(!currUser){%>
-           <a class="nav-link"  href="/Signup">SignUp</a>
-          <a class="nav-link" href="/login">Login</a>
+           <a class="nav-link"  href="/Signup"><b>SignUp</b></a>
+          <a class="nav-link" href="/login"><b>Login</b></a>
           <%  }%>
          <% if(currUser){%>
-          <a class="nav-link" href="/logout">Logout</a>
+          <a class="nav-link" href="/logout"><b>Logout</b></a>
           <%  }%>
 
           

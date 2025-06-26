@@ -1,9 +1,14 @@
 <%layout("/layouts/boilerplate")%>
+<script>const mapToken="<%=process.env.MAPBOX_TOKEN%>";
+const listing=<%-JSON.stringify(listing)%>
+
+</script>
+
 <body>
     <div class="row offset-3">
     <div class="col-8">
 
-    <h3 class="mt-4 mb-4"style="color:grey;"><b><%=listing.title%></b></h3>
+    <h1 class="mt-4 mb-4"style="color:black;"><b><%=listing.title%></b></h1>
     <div class="card listing-card">
         <img src="<%=listing.image.url%>" class="card-img-top" alt="listing-img" style="height:20rem">
         <div class="card-body">
@@ -15,7 +20,7 @@
             <p><b>Description:</b><%=listing.description%></p>
            <p><b>Price:</b>&#8377;<b><%=listing.price.toLocaleString("en-IN")%></b>/night.</p>
 
-           
+            <% if(currUser && currUser._id.equals(listing.owner._id)){%>
          <div class="show-btn">
             <form action="/listings/<%=listing._id%>/edit">
                 <button class="btn btn-danger ">edit this listing</button>
@@ -24,12 +29,22 @@
                 <button class=" btn btn-danger">delete this listing</button>
             </form>
         </div >
-           
+        <%}else if (currUser) { %>
+  <div class="text-center mt-4">
+    <button class="btn btn-dark px-4 py-2" onclick="alert('🚧 This feature is currently in progress. Stay tuned!')">
+      Book Your Stay
+    </button>
+  </div>
+<% } %>
+        
+
          
         <div>
-            <hr>
-            <h4>leave a review</h4>
+           
+            
             <% if(currUser){%>
+                 <hr/>
+                <h4>leave a review</h4>
             <form action="/listings/<%= listing._id%>/reviews"method="post" novalidate class="needs-validation">
                 <div class="mb-3 mt-3">
                     <label for="rating" class="form-label">Rating</label>
@@ -65,9 +80,12 @@
                 </button>
             </form>
             <%}%>
-            <hr>
-         <h5><b>Reviews by our verified users</b></h5>
-         <div class="row">
+           
+         
+<% if(listing.reviews.length > 0){%>
+         <div class="row mt-4">
+             <hr>
+             <h5><b>Reviews by our verified users</b></h5>
             <% for(review of listing.reviews){%>
    <div class="card col-5 ms-3 mb-3 mt-3">
      <div class="card-body">
@@ -85,11 +103,19 @@
          </div>
        <% }%>
          </div>
+       <% }%>
+         <div>
+            <hr>
+       
+            <div id="map">
+
+            </div>
+         </div>
 
         
           
         </div>
-    
+        
         
         </div>
       </div>
@@ -97,7 +123,6 @@
 
 </div>
 </div>
+<script src="/javascript/map.js"></script>
 </body>
-<!--  <% if(currUser && currUser._id.equals(listing.owner._id)){%> -->
-    <!-- <%}%> -->
-            
+

@@ -18,7 +18,7 @@ app.listen(8000,()=>{
 
 initDB=async()=>{
    await listing.deleteMany({});
-   initData.data=initData.data.map((obj)=>({...obj,owner:"6856c2c1fad722a91ee348c6" }));
+   initData.data=initData.data.map((obj)=>({...obj,owner:"68582a2ae7f8874ae73ebc44"}));
    await listing.insertMany(initData.data);
    console.log("data reinitialized successfully");
 }

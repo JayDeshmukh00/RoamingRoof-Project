@@ -1,38 +1,69 @@
-<%layout("/layouts/boilerplate")%>
-<!-- <div class="row">
-  
-  <% if (typeof success !== 'undefined' && success.length) { %>
-  <div class="alert alert-success mt-3 col-md-4 alert-dismissible fade show">
-    <%= success[0] %>
-    <button
-    type="button"
-    class="btn-close"
-    data-bs-dismiss="alert"
-    aria-label="Close"
-    >
-      
-    </button>
+<% layout("/layouts/boilerplate") %>
+
+<!-- Filters Section -->
+<div id="filters">
+  <div class="filter"><i class="fa-solid fa-fire"></i><p>Trending</p></div>
+  <div class="filter"><i class="fa-solid fa-building"></i><p>Apartments</p></div>
+  <div class="filter"><i class="fa-solid fa-person-swimming"></i><p>Pools</p></div>
+  <div class="filter"><i class="fa-solid fa-tractor"></i><p>Farm House</p></div>
+  <div class="filter"><img src="./icons/villa.png" alt="villa"><p>Villas</p></div>
+  <div class="filter"><img src="./icons/villa.png" alt="cottage"><p>Cottage</p></div>
+  <div class="filter"><img src="./icons/mountain.png" alt="mountain"><p>Mountains</p></div>
+  <div class="filter"><img src="./icons/beach.png" alt="beach"><p>Beachfront</p></div>
+  <div class="filter"><img src="./icons/heritage.png" alt="heritage"><p>Heritage</p></div>
+ <div class="filter"><img src="./icons/mountain.png" alt="heritage"><p>Heritage</p></div>
+ <div class="filter"><img src="./icons/resorts.png" alt="heritage"><p>Heritage</p></div>
+ <div class="filter"><img src="./icons/villa.png" alt="heritage"><p>Heritage</p></div>
+  <!-- Tax Toggle positioned after Heritage -->
+  <div class="tax-toggle">
+    <div class="form-check-reverse form-switch">
+      <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+      <label class="form-check-label" for="switchCheckDefault">Total after taxes</label>
+    </div>
   </div>
-<% } %>
-</div> -->
+</div>
 
+<hr>
 
-    
-
-<body>
-<h3>All Listings</h3>
-<div class="row row-cols-lg-3  row-cols-md-2 row-cols-sm-1 g-4">
-<%for(let listing of allListings){%>
-  <a href="/listings/<%=listing._id%>" class="listing-link">
-    <div class="card  listing-card">
-        <img src="<%=listing.image.url%>" class="card-img-top" alt="listing-imag" style="height:20rem">
-        <div class="card-img-overlay"></div>
+<!-- Listings Section -->
+<div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4 mt-3 justify-content-center">
+  <% for (let listing of allListings) { %>
+    <a href="/listings/<%= listing._id %>" class="listing-link" style="text-decoration: none;">
+      <div class="card listing-card">
+        <img src="<%= listing.image.url %>" class="card-img-top" alt="listing-image">
         <div class="card-body">
-          <p class="card-text"><b>Title:<%=listing.title%></b> <br><b>Location:</b><%=listing.location%> <br><b>Country:</b><%=listing.country%> <br><b>Price:</b>&#8377;<%=listing.price.toLocaleString("en-IN")%></p>
+          <div class="info-row"><b>Title:</b><%= listing.title %></div>
+          <div class="info-row"><b>Location:</b><%= listing.location %></div>
+          <div class="info-row"><b>Country:</b><%= listing.country %></div>
+          <div class="info-row"><b>Price:</b>₹<span class="price-value" data-base-price="<%= listing.price %>"><%= listing.price.toLocaleString("en-IN") %></span>/night</div>
         </div>
       </div>
     </a>
-    <%}%>
+  <% } %>
 </div>
-</body>
 
+<script>
+  const taxSwitch = document.getElementById("switchCheckDefault");
+
+  function animatePrice(span, from, to) {
+    const duration = 400;
+    const start = performance.now();
+
+    function update(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const current = Math.floor(from + (to - from) * progress);
+      span.innerText = current.toLocaleString("en-IN");
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  taxSwitch.addEventListener("change", () => {
+    document.querySelectorAll(".price-value").forEach(span => {
+      const basePrice = parseFloat(span.getAttribute("data-base-price"));
+      const newPrice = taxSwitch.checked ? basePrice * 1.18 : basePrice;
+      const currentDisplayed = parseFloat(span.innerText.replace(/,/g, ""));
+      animatePrice(span, currentDisplayed, Math.floor(newPrice));
+    });
+  });
+</script>

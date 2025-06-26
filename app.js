@@ -15,6 +15,7 @@ const listingRoute=require("./routes/listings.js")
 const reviewRoute=require("./routes/reviews.js")
 const userRoute=require("./routes/users.js");
 const session =require("express-session");
+const MongoStore = require('connect-mongo');
 const flash=require("connect-flash");
 const passport=require("passport");
 const LocalStrategy = require("passport-local");
@@ -32,10 +33,11 @@ app.engine("ejs",ejsMate);
 app.use(express.static(path.join(__dirname,"public")));
 
 
-const Mongo_Url="mongodb://127.0.0.1:27017/RoamingRoof";
+// const Mongo_Url="mongodb://127.0.0.1:27017/RoamingRoof";
+const atlasUrl=process.env.ATLASDB_URL
 
 async function main(){
-    await mongoose.connect(Mongo_Url);
+    await mongoose.connect(atlasUrl);
 }
 main().then(()=>console.log("database connection successful"))
 .catch((err)=>console.log("error occured while connecting to database",err));
@@ -44,8 +46,23 @@ app.get("/",(req,res)=>{
 res.render("./listings/landing.ejs")
 })
 
+//Mongo Store
+const store=MongoStore.create({
+mongoUrl:atlasUrl,
+crypto: {
+    secret:process.env.SECRET
+
+  },
+  touchAfter:24*3600,
+});
+
+store.on("error",(err)=>{
+    console.log("Error in Mongo Session Store",err)
+})
+
 const sessionOptions={
-    secret:"mysupersecretcode",
+    store,
+    secret:process.env.SECRET,
     resave:false,
     saveUninitialized:true,
     cookie:{
@@ -55,7 +72,6 @@ const sessionOptions={
     }
 
 };
-
 
 
 
@@ -118,6 +134,8 @@ app.use((err,req,res,next)=>{
     res.status(status_code).render("./listings/error.ejs",{message});
     // res.status(status_code).send(message);
 });  
+
+
 
 
 
