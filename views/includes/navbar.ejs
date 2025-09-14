@@ -1,66 +1,153 @@
+
+
 <style>
-  .search-btn{
-    background-color:#fe424d;
-    color:#fff;
-       border-radius:25px;
-     padding:0 1rem 0 1rem;
-     scale:0.8;
- 
+  .navbar-custom {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    background-color: #ffffff;
+    padding: 0.75rem 0;
   }
-  .search-btn:hover{
-    background-color:#fe424d;
-    color:white;
+
+  /* --- Brand (Cool Blue) --- */
+  .navbar-brand-custom .brand-logo {
+    height: 38px;
+    width: 38px;
+    object-fit: contain;
   }
-  .search-btn i{
-    display:inline;
-    margin-right:0.5rem;
- 
-   
+  .navbar-brand-custom .brand-text {
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: #3B82F6;
   }
-  .search input{
-     border-radius:25px;
-    margin-right:5rem;
-    padding:1rem 3rem 1rem 3rem;
+
+  /* --- Search Bar (Cool Blue) --- */
+  @media (min-width: 992px) {
+    .navbar-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+  .search-container {
+    position: relative;
+    width: 350px;
+  }
+  .search-input-custom {
+    border-radius: 50px;
+    border: 1px solid #ddd;
+    padding: 0.6rem 3.5rem 0.6rem 1.5rem;
+    height: 48px;
+    transition: all 0.3s ease;
+  }
+  .search-input-custom:focus {
+    border-color: #3B82F6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+  }
+  .search-btn-custom {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+    background-color: #3B82F6;
+    color: #fff;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: background-color 0.2s ease;
+  }
+  .search-btn-custom:hover {
+    background-color: #2563EB;
+  }
+
+  /* --- Nav Links & Buttons --- */
+  .nav-link {
+    font-weight: 500;
+  }
+  .nav-link-host {
+    border-radius: 20px;
+    padding: 0.5rem 1rem !important;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  .nav-link-host:hover {
+    background-color: #f0f2f5;
+  }
+
+  /* Simplified and specific class for the Sign Up button */
+  .btn-signup-brand {
+    background-color: #3B82F6;
+    border-color: #3B82F6;
+    color: white;
+  }
+  .btn-signup-brand:hover {
+    background-color: #2563EB;
+    border-color: #1D4ED8;
+    color: white;
+  }
+
+  /* --- User Dropdown --- */
+  .user-dropdown .dropdown-toggle::after {
+    display: none;
+  }
+  .user-dropdown .dropdown-menu {
+    border-radius: 0.75rem;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  .user-icon {
+    font-size: 1.5rem;
+    color: #484848;
   }
 </style>
-<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
-    <div class="container-fluid">
 
-      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
-  <img src="/icons/house.png" alt="RoamingRoof Logo" style="height: 40px; width: 40px; object-fit: contain;" />
-  <span style="font-weight: 700; font-size: 1.5rem; color:#fe424d;">RoamingRoof</span>
-</a>
+<nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand navbar-brand-custom d-flex align-items-center gap-2" href="/">
+      <img src="/icons/house.png" alt="RoamingRoof Logo" class="brand-logo" />
+      <span class="brand-text">RoamingRoof</span>
+    </a>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-link"  href="/listings"><b>Explore</b></a>
-       </div>
+    <div class="navbar-center d-none d-lg-block">
+      <form class="search-container" role="search">
+        <input class="form-control search-input-custom" type="search" placeholder="Search destinations" />
+        <button class="btn search-btn-custom" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </form>
+    </div>
 
-       <div class="navbar-nav ms-auto search">
-        <form class="d-flex" role="search">
-      <input class="form-control me-2 search-input" type="search" placeholder="Search Destination" />
-      <button class=" btn search-btn " type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
-    </form>
-       </div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
+    <div class="collapse navbar-collapse" id="navbarNavContent">
+      <div class="d-lg-none my-3">
+        <form class="search-container mx-auto" role="search">
+          <input class="form-control search-input-custom" type="search" placeholder="Search destinations" />
+          <button class="btn search-btn-custom" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+      </div>
 
-        <div class="navbar-nav ms-auto">
-           <a class="nav-link" href="/listings/new"><b>Become a Host</b></a>
-          <% if(!currUser){%>
-           <a class="nav-link"  href="/Signup"><b>SignUp</b></a>
-          <a class="nav-link" href="/login"><b>Login</b></a>
-          <%  }%>
-         <% if(currUser){%>
-          <a class="nav-link" href="/logout"><b>Logout</b></a>
-          <%  }%>
+      <div class="navbar-nav ms-auto d-flex align-items-center gap-2">
+        <a class="nav-link nav-link-host" href="/listings/new"><b style="color:#1D4ED8">Become a Host</b></a>
 
-          
-          
+        <% if(!currUser) { %>
+          <a class="btn btn-outline-secondary rounded-pill" href="/login" role="button">Log In</a>
+          <a class="btn btn-signup-brand rounded-pill" href="/Signup" role="button">Sign Up</a>
+        <% } else { %>
+          <div class="nav-item dropdown user-dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              <i class="fa-solid fa-circle-user user-icon"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="#">My Bookings</a></li>
+              <li><a class="dropdown-item" href="#">Account Settings</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/logout">Logout</a></li>
+            </ul>
           </div>
-        
+        <% } %>
       </div>
     </div>
-  </nav>
+  </div>
+</nav>
