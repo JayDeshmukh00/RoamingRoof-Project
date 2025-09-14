@@ -2,18 +2,18 @@
 
 <!-- Filters Section -->
 <div id="filters">
-  <div class="filter"><i class="fa-solid fa-fire"></i><p>Trending</p></div>
-  <div class="filter"><i class="fa-solid fa-building"></i><p>Apartments</p></div>
-  <div class="filter"><i class="fa-solid fa-person-swimming"></i><p>Pools</p></div>
-  <div class="filter"><i class="fa-solid fa-tractor"></i><p>Farm House</p></div>
-  <div class="filter"><img src="./icons/villa.png" alt="villa"><p>Villas</p></div>
-  <div class="filter"><img src="./icons/villa.png" alt="cottage"><p>Cottage</p></div>
-  <div class="filter"><img src="./icons/mountain.png" alt="mountain"><p>Mountains</p></div>
-  <div class="filter"><img src="./icons/beach.png" alt="beach"><p>Beachfront</p></div>
-  <div class="filter"><img src="./icons/heritage.png" alt="heritage"><p>Heritage</p></div>
- <div class="filter"><img src="./icons/mountain.png" alt="heritage"><p>Heritage</p></div>
- <div class="filter"><img src="./icons/resorts.png" alt="heritage"><p>Heritage</p></div>
- <div class="filter"><img src="./icons/villa.png" alt="heritage"><p>Heritage</p></div>
+  <a href="/listings" class="filter"><i class="fa-solid fa-fire"></i><p>Trending</p></a>
+  <a href="/listings?category=Apartments" class="filter"><i class="fa-solid fa-building"></i><p>Apartments</p></a>
+  <a href="/listings?category=Pools" class="filter"><i class="fa-solid fa-person-swimming"></i><p>Pools</p></a>
+  <a href="/listings?category=Farm House" class="filter"><i class="fa-solid fa-tractor"></i><p>Farm House</p></a>
+  <a href="/listings?category=Villas" class="filter"><img src="./icons/villa.png" alt="villa"><p>Villas</p></a>
+  <a href="/listings?category=Cottage" class="filter"><img src="./icons/villa.png" alt="cottage"><p>Cottage</p></a>
+  <a href="/listings?category=Mountains" class="filter"><img src="./icons/mountain.png" alt="mountain"><p>Mountains</p></a>
+  <a href="/listings?category=Beachfront" class="filter"><img src="./icons/beach.png" alt="beach"><p>Beachfront</p></a>
+  <a href="/listings?category=Heritage" class="filter"><img src="./icons/heritage.png" alt="heritage"><p>Heritage</p></a>
+  <a href="/listings?category=Resorts" class="filter"><img src="./icons/resorts.png" alt="resorts"><p>Resorts</p></a>
+  <a href="/listings?category=Cabins" class="filter"><img src="./icons/villa.png" alt="cabins"><p>Cabins</p></a>
+  <a href="/listings?category=Castles" class="filter"><i class="fa-solid fa-castle"></i><p>Castles</p></a>
   <!-- Tax Toggle positioned after Heritage -->
   <div class="tax-toggle">
     <div class="form-check-reverse form-switch">
@@ -28,13 +28,14 @@
 <!-- Listings Section -->
 <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4 mt-3 justify-content-center">
   <% for (let listing of allListings) { %>
-    <a href="/listings/<%= listing._id %>" class="listing-link" style="text-decoration: none;">
-      <div class="card listing-card">
+    <a href="/listings/<%= listing._id %>" class="listing-link" style="text-decoration: none; color: black;">
+      <div class="card listing-card" data-category="<%= listing.category %>">
         <img src="<%= listing.image.url %>" class="card-img-top" alt="listing-image">
         <div class="card-body">
           <div class="info-row"><b>Title:</b><%= listing.title %></div>
           <div class="info-row"><b>Location:</b><%= listing.location %></div>
           <div class="info-row"><b>Country:</b><%= listing.country %></div>
+          <div class="info-row"><b>Category:</b> <%= listing.category %></div>
           <div class="info-row"><b>Price:</b>₹<span class="price-value" data-base-price="<%= listing.price %>"><%= listing.price.toLocaleString("en-IN") %></span>/night</div>
         </div>
       </div>
@@ -64,6 +65,32 @@
       const newPrice = taxSwitch.checked ? basePrice * 1.18 : basePrice;
       const currentDisplayed = parseFloat(span.innerText.replace(/,/g, ""));
       animatePrice(span, currentDisplayed, Math.floor(newPrice));
+    });
+  });
+
+  // Category filtering
+  const filters = document.querySelectorAll("#filters .filter");
+  const listingLinks = document.querySelectorAll(".listing-link");
+
+  filters.forEach(filter => {
+    filter.addEventListener("click", () => {
+      const category = filter.querySelector("p").innerText.trim();
+
+      // Remove active class from all filters
+      filters.forEach(f => f.classList.remove("active"));
+      // Add active class to clicked filter
+      filter.classList.add("active");
+
+      // Show/hide listings based on category
+      listingLinks.forEach(link => {
+        const card = link.querySelector(".listing-card");
+        const cardCategory = card.getAttribute("data-category");
+        if (category === "Trending" || cardCategory === category) {
+          link.style.display = "";
+        } else {
+          link.style.display = "none";
+        }
+      });
     });
   });
 </script>

@@ -7,7 +7,7 @@
     padding: 0.75rem 0;
   }
 
-  /* --- Brand (Cool Blue) --- */
+  /* --- Brand (Red like Airbnb) --- */
   .navbar-brand-custom .brand-logo {
     height: 38px;
     width: 38px;
@@ -16,10 +16,10 @@
   .navbar-brand-custom .brand-text {
     font-weight: 700;
     font-size: 1.4rem;
-    color: #3B82F6;
+    color: #FF385C;
   }
 
-  /* --- Search Bar (Cool Blue) --- */
+  /* --- Search Bar (Red like Airbnb) --- */
   @media (min-width: 992px) {
     .navbar-center {
       position: absolute;
@@ -39,15 +39,15 @@
     transition: all 0.3s ease;
   }
   .search-input-custom:focus {
-    border-color: #3B82F6;
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+    border-color: #FF385C;
+    box-shadow: 0 0 0 4px rgba(255, 56, 92, 0.15);
   }
   .search-btn-custom {
     position: absolute;
     top: 50%;
     right: 5px;
     transform: translateY(-50%);
-    background-color: #3B82F6;
+    background-color: #FF385C;
     color: #fff;
     border-radius: 50%;
     width: 38px;
@@ -59,7 +59,7 @@
     transition: background-color 0.2s ease;
   }
   .search-btn-custom:hover {
-    background-color: #2563EB;
+    background-color: #E31B23;
   }
 
   /* --- Nav Links & Buttons --- */
@@ -75,17 +75,7 @@
     background-color: #f0f2f5;
   }
 
-  /* Simplified and specific class for the Sign Up button */
-  .btn-signup-brand {
-    background-color: #3B82F6;
-    border-color: #3B82F6;
-    color: white;
-  }
-  .btn-signup-brand:hover {
-    background-color: #2563EB;
-    border-color: #1D4ED8;
-    color: white;
-  }
+
 
   /* --- User Dropdown --- */
   .user-dropdown .dropdown-toggle::after {
@@ -104,14 +94,14 @@
 
 <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand navbar-brand-custom d-flex align-items-center gap-2" href="/">
+    <a class="navbar-brand navbar-brand-custom d-flex align-items-center gap-2" href="/listings">
       <img src="/icons/house.png" alt="RoamingRoof Logo" class="brand-logo" />
       <span class="brand-text">RoamingRoof</span>
     </a>
 
     <div class="navbar-center d-none d-lg-block">
-      <form class="search-container" role="search">
-        <input class="form-control search-input-custom" type="search" placeholder="Search destinations" />
+      <form class="search-container" action="/listings/search" method="GET" role="search">
+        <input class="form-control search-input-custom" type="search" name="q" placeholder="Search destinations" />
         <button class="btn search-btn-custom" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
       </form>
     </div>
@@ -122,18 +112,18 @@
 
     <div class="collapse navbar-collapse" id="navbarNavContent">
       <div class="d-lg-none my-3">
-        <form class="search-container mx-auto" role="search">
-          <input class="form-control search-input-custom" type="search" placeholder="Search destinations" />
+        <form class="search-container mx-auto" action="/listings/search" method="GET" role="search">
+          <input class="form-control search-input-custom" type="search" name="q" placeholder="Search destinations" />
           <button class="btn search-btn-custom" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
         </form>
       </div>
 
       <div class="navbar-nav ms-auto d-flex align-items-center gap-2">
-        <a class="nav-link nav-link-host" href="/listings/new"><b style="color:#1D4ED8">Become a Host</b></a>
+        <a class="nav-link nav-link-host" href="/listings/new"><b style="color:#FF385C">Become a Host</b></a>
 
         <% if(!currUser) { %>
-          <a class="btn btn-outline-secondary rounded-pill" href="/login" role="button">Log In</a>
-          <a class="btn btn-signup-brand rounded-pill" href="/Signup" role="button">Sign Up</a>
+          <a class="btn btn-login-custom rounded-pill" href="/login" role="button">Log In</a>
+          <a class="btn btn-signup-custom rounded-pill" href="/Signup" role="button">Sign Up</a>
         <% } else { %>
           <div class="nav-item dropdown user-dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">

@@ -97,3 +97,28 @@ border:0;
 } 
 
 
+/* Custom button styles for navbar */
+.btn-signup-custom {
+    background-color: #FF385C;
+    border-color: #FF385C;
+    color: white;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+.btn-signup-custom:hover {
+    background-color: #E31B23;
+    border-color: #E31B23;
+    color: white;
+}
+
+.btn-login-custom {
+    border-color: #FF385C;
+    color: #FF385C;
+    background-color: transparent;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.btn-login-custom:hover {
+    background-color: #FF385C;
+    color: white;
+}
+
+

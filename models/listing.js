@@ -30,6 +30,12 @@ required:true,
     type:String,
     required:true
    },
+
+   category:{
+    type:String,
+    enum:["Trending","Apartments","Pools","Farm House","Villas","Cottage","Mountains","Beachfront","Heritage","Resorts","Cabins","Castles"],
+    required:true
+   },
 reviews:[
     {
         type:Schema.Types.ObjectId,

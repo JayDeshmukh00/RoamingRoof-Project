@@ -19,6 +19,9 @@ router
 .post(isLoggedIn,upload.single("listing[image]"),validateListing,wrapAsync(controller.createroute));//create route
 
 
+//search route
+router.get("/search",wrapAsync(controller.searchroute));
+
 router
 .route("/:id")
 .get(wrapAsync(controller.showroute))//show route
