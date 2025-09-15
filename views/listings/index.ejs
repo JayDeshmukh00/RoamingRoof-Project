@@ -6,13 +6,13 @@
   <a href="/listings?category=Apartments" class="filter"><i class="fa-solid fa-building"></i><p>Apartments</p></a>
   <a href="/listings?category=Pools" class="filter"><i class="fa-solid fa-person-swimming"></i><p>Pools</p></a>
   <a href="/listings?category=Farm House" class="filter"><i class="fa-solid fa-tractor"></i><p>Farm House</p></a>
-  <a href="/listings?category=Villas" class="filter"><img src="./icons/villa.png" alt="villa"><p>Villas</p></a>
-  <a href="/listings?category=Cottage" class="filter"><img src="./icons/villa.png" alt="cottage"><p>Cottage</p></a>
-  <a href="/listings?category=Mountains" class="filter"><img src="./icons/mountain.png" alt="mountain"><p>Mountains</p></a>
-  <a href="/listings?category=Beachfront" class="filter"><img src="./icons/beach.png" alt="beach"><p>Beachfront</p></a>
-  <a href="/listings?category=Heritage" class="filter"><img src="./icons/heritage.png" alt="heritage"><p>Heritage</p></a>
-  <a href="/listings?category=Resorts" class="filter"><img src="./icons/resorts.png" alt="resorts"><p>Resorts</p></a>
-  <a href="/listings?category=Cabins" class="filter"><img src="./icons/villa.png" alt="cabins"><p>Cabins</p></a>
+  <a href="/listings?category=Villas" class="filter"><img src="/icons/villa.png" alt="villa"><p>Villas</p></a>
+  <a href="/listings?category=Cottage" class="filter"><img src="/icons/cottage.png" alt="cottage"><p>Cottage</p></a>
+  <a href="/listings?category=Mountains" class="filter"><img src="/icons/mountain.png" alt="mountain"><p>Mountains</p></a>
+  <a href="/listings?category=Beachfront" class="filter"><img src="/icons/beach.png" alt="beach"><p>Beachfront</p></a>
+  <a href="/listings?category=Heritage" class="filter"><img src="/icons/heritage.png" alt="heritage"><p>Heritage</p></a>
+  <a href="/listings?category=Resorts" class="filter"><img src="/icons/resorts.png" alt="resorts"><p>Resorts</p></a>
+  <a href="/listings?category=Cabins" class="filter"><img src="/icons/cottage.png" alt="cabins"><p>Cabins</p></a>
   <a href="/listings?category=Castles" class="filter"><i class="fa-solid fa-castle"></i><p>Castles</p></a>
   <!-- Tax Toggle positioned after Heritage -->
   <div class="tax-toggle">
@@ -35,7 +35,8 @@
           <div class="info-row"><b>Title:</b><%= listing.title %></div>
           <div class="info-row"><b>Location:</b><%= listing.location %></div>
           <div class="info-row"><b>Country:</b><%= listing.country %></div>
-          <div class="info-row"><b>Category:</b> <%= listing.category %></div>
+          <!-- Removed duplicate category display to prevent double showing -->
+          <!-- <div class="info-row"><b>Category:</b> <%= listing.category %></div> -->
           <div class="info-row"><b>Price:</b>₹<span class="price-value" data-base-price="<%= listing.price %>"><%= listing.price.toLocaleString("en-IN") %></span>/night</div>
         </div>
       </div>
