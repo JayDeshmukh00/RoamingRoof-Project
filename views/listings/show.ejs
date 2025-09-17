@@ -1,127 +1,411 @@
-<%layout("/layouts/boilerplate")%>
-<script>const mapToken="<%=process.env.MAPBOX_TOKEN%>";
-const listing=<%-JSON.stringify(listing)%>
+<% layout("/layouts/boilerplate") %>
 
+<style>
+  /* --- Show Page Specific Styles --- */
+
+  /* Title */
+  .listing-title {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 1.75rem; 
+    font-weight: 700;
+    color: #1F2937;
+    margin-bottom: 0.5rem;
+    margin-top: 1.5rem;
+  }
+  
+  /* Main listing image card */
+  .show-card.listing-card {
+      border: none;
+      background: transparent;
+  }
+  .show-card.listing-card img {
+    border-radius: 0.75rem;
+    width: 100%;
+    height: 450px;        /* fixed height for carousel */
+    object-fit: cover;    /* keep aspect ratio */
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+  .show-card.listing-card img:hover {
+      opacity: 0.9;
+  }
+
+  .show-card .card-body {
+    padding: 1.5rem 0;
+    background: #fff;
+    position: relative;
+    z-index: 2;  /* ensures text/buttons appear above image */
+  }
+
+  /* Professional Listing Details Section */
+  .details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid #E5E7EB;
+    border-bottom: 1px solid #E5E7EB;
+    margin-top: 1.5rem;
+  }
+  .detail-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.1rem;
+  }
+  .detail-item .icon {
+    font-size: 1.25rem;
+    color: #4B5563;
+  }
+  .detail-item .text b {
+    display: block;
+    font-weight: 600;
+    color: #1F2937;
+  }
+  .listing-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-top: 1.5rem;
+  }
+
+  /* Edit and Delete buttons */
+  .show-btn-container {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #E5E7EB;
+  }
+  .show-btn-container .btn {
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 0.6rem 1.2rem;
+    transition: all 0.2s ease;
+  }
+  .btn-edit {
+    background-color: #F9FAFB; border: 1px solid #D1D5DB; color: #1F2937;
+  }
+  .btn-edit:hover {
+    background-color: #F3F4F6; border-color: #9CA3AF;
+  }
+  .btn-delete {
+    background-color: #FEE2E2; border-color: #FCA5A5; color: #B91C1C;
+  }
+  .btn-delete:hover {
+    background-color: #FECACA; border-color: #F87171;
+  }
+
+  /* Booking & Contact Cards */
+  .booking-contact-card {
+      border-radius: 12px;
+      border: 1px solid #E5E7EB;
+      background: #FFFFFF;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 4px 6px rgba(0,0,0,0.05);
+  }
+  .btn-brand {
+    background-color: #1F2937;
+    border-color: #1F2937;
+    color: #fff;
+    font-weight: 600;
+  }
+  .btn-brand:hover {
+      background-color: #111827;
+      border-color: #111827;
+  }
+
+  /* Reviews & Map Grid */
+  .reviews-map-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; margin-top: 2rem;
+  }
+  @media (max-width: 992px) {
+    .reviews-map-grid { grid-template-columns: 1fr; }
+  }
+  #map {
+    height: 450px; border-radius: 1rem; border: 1px solid #E5E7EB;
+  }
+  .review-card {
+    border: 1px solid #E5E7EB; border-radius: 0.75rem; margin-bottom: 1rem;
+  }
+
+  /* --- NEW: Image Modal (Lightbox) --- */
+  .image-modal {
+    display: none;
+    position: fixed;
+    z-index: 1055;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-content-image {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 90vh;
+  }
+
+  .close-modal {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+  }
+
+  .close-modal:hover,
+  .close-modal:focus {
+    color: #bbb;
+    text-decoration: none;
+  }
+</style>
+
+<script>
+  const mapToken = "<%=process.env.MAPBOX_TOKEN%>";
+  const mapData = {
+      geometry: <%- JSON.stringify(listing.geometry) %>,
+      location: <%- JSON.stringify(listing.location) %> 
+  };
 </script>
 
-<body>
-    <div class="row offset-3">
-    <div class="col-8">
+<!-- updated layout -->
 
-    <h1 class="mt-4 mb-4"style="color:black;"><b><%=listing.title%></b></h1>
-    <div class="card listing-card">
-        <img src="<%=listing.image.url%>" class="card-img-top" alt="listing-img" style="height:20rem">
-        <div class="card-body">
-          <p class="card-text">
-            <p><b>Owner:</b><b>@<%=listing.owner.username%></b> </p>
-         <p><b>Title:</b><b><%=listing.title%></b> </p>   
-            <p><b>Location:</b><%=listing.location%></p>
-            <p><b>Country:</b><%=listing.country%> </p>
-            <p><b>Description:</b><%=listing.description%></p>
-           <p><b>Price:</b>&#8377;<b><%=listing.price.toLocaleString("en-IN")%></b>/night.</p>
+<div class="row">
+  <div class="col-10 col-md-8 offset-1 offset-md-2">
 
-            <% if(currUser && currUser._id.equals(listing.owner._id)){%>
-         <div class="show-btn">
-            <form action="/listings/<%=listing._id%>/edit">
-                <button class="btn btn-danger ">edit this listing</button>
-            </form>
-            <form action="/listings/<%=listing._id%>?_method=delete"method="post">
-                <button class=" btn btn-danger">delete this listing</button>
-            </form>
-        </div >
-        <%}else if (currUser) { %>
-  <div class="text-center mt-4">
-    <button class="btn btn-dark px-4 py-2" onclick="alert('🚧 This feature is currently in progress. Stay tuned!')">
-      Book Your Stay
-    </button>
-  </div>
-<% } %>
-        
-
-         
-        <div>
-           
-            
-            <% if(currUser){%>
-                 <hr/>
-                <h4>leave a review</h4>
-            <form action="/listings/<%= listing._id%>/reviews"method="post" novalidate class="needs-validation">
-                <div class="mb-3 mt-3">
-                    <label for="rating" class="form-label">Rating</label>
-                  
-                     
-  <fieldset class="starability-slot">
-  
-  <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
-  <input type="radio" id="first-rate1" name="review[rating]" value="1" />
-  <label for="first-rate1" title="Terrible">1 star</label>
-  <input type="radio" id="first-rate2" name="review[rating]" value="2" />
-  <label for="first-rate2" title="Not good">2 stars</label>
-  <input type="radio" id="first-rate3" name="review[rating]" value="3" />
-  <label for="first-rate3" title="Average">3 stars</label>
-  <input type="radio" id="first-rate4" name="review[rating]" value="4" />  
-  <label for="first-rate4" title="Very good">4 stars</label>
-  <input type="radio" id="first-rate5" name="review[rating]" value="5" />
-  <label for="first-rate5" title="Amazing">5 stars</label>
-</fieldset>
-                </div>
-
-
-
-                <div class="mb-3">
-                    <label for="comment" class="form-label">Comment</label>
-                    <textarea name="review[comment]" id="comment" cols="30" rows="5" class="form-control" required></textarea>
-                    <div class="invalid-feedback">please add a comment to review</div>
-                </div>
-                
-                <button class="btn btn-outline-dark">
-                    Submit
-
-                </button>
-            </form>
-            <%}%>
-           
-         
-<% if(listing.reviews.length > 0){%>
-         <div class="row mt-4">
-             <hr>
-             <h5><b>Reviews by our verified users</b></h5>
-            <% for(review of listing.reviews){%>
-   <div class="card col-5 ms-3 mb-3 mt-3">
-     <div class="card-body">
-     <h5 class="card-title">@<%=review.author.username%></h5>
-     <p class="starability-result card-text"data-rating="<%=review.rating%>"></p>
-     <p class="card-text"><%=review.comment%></p>
+    <h1 class="listing-title"><%=listing.title%></h1>
     
-    
-<form action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=delete" class="mb-3"method="post">
-    <button class="btn btn-sm mt-3 btn-dark">Delete</button>
-</form>
-
-
+    <!-- Card 1: Image Carousel -->
+    <div class="card listing-card show-card mb-4">
+      <div id="listingCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <% if (listing.images && listing.images.length > 0) { %>
+            <% listing.images.forEach((img, index) => { %>
+              <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                <img src="<%= img.url %>" class="d-block w-100" alt="Listing Image" onclick="openImageModal('<%= img.url %>')">
+              </div>
+            <% }) %>
+          <% } else { %>
+            <div class="carousel-item active">
+              <img src="https://via.placeholder.com/800x400?text=No+Image+Available" class="d-block w-100" alt="No image">
             </div>
-         </div>
-       <% }%>
-         </div>
-       <% }%>
-         <div>
-            <hr>
-       
-            <div id="map">
-
-            </div>
-         </div>
-
-        
-          
+          <% } %>
         </div>
-        
-        
+
+        <% if (listing.images && listing.images.length > 1) { %>
+          <button class="carousel-control-prev" type="button" data-bs-target="#listingCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#listingCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+
+          <div class="carousel-indicators">
+            <% listing.images.forEach((img, index) => { %>
+              <button type="button" data-bs-target="#listingCarousel" data-bs-slide-to="<%= index %>" 
+                class="<%= index === 0 ? 'active' : '' %>" 
+                aria-current="<%= index === 0 ? 'true' : 'false' %>" 
+                aria-label="Slide <%= index + 1 %>"></button>
+            <% }) %>
+          </div>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- Card 2: Details + Buttons -->
+    <div class="card p-4 mb-4">
+      <div class="details-grid">
+        <div class="detail-item">
+          <i class="fa-solid fa-user-check icon"></i>
+          <div class="text"><b>Owner</b> @<%=listing.owner.username%></div>
+        </div>
+        <div class="detail-item">
+          <i class="fa-solid fa-location-dot icon"></i>
+          <div class="text"><b>Location</b> <%=listing.location%>, <%=listing.country%></div>
+        </div>
+        <div class="detail-item">
+          <i class="fa-solid fa-indian-rupee-sign icon"></i>
+          <div class="text"><b>Price</b> <%=listing.price.toLocaleString("en-IN")%> / night</div>
         </div>
       </div>
+      <p class="listing-description"><b>Description:</b> <%=listing.description%></p>
 
+      <% if(currUser && currUser._id.toString() === listing.owner._id.toString()) { %>
+        <div class="show-btn-container">
+          <form action="/listings/<%=listing._id%>/edit">
+            <button class="btn btn-edit">Edit Listing</button>
+          </form>
+          <form action="/listings/<%=listing._id%>?_method=delete" method="post">
+            <button class="btn btn-delete">Delete Listing</button>
+          </form>
+        </div>
+      <% } %>
+    </div>
+    
+    <!-- (Booking and rest of your page stays the same) -->
 
+    <% if(currUser && !currUser._id.equals(listing.owner._id)) { %>
+      <div class="row mt-4">
+        <div class="col-md-7">
+          <div class="card card-body booking-contact-card">
+            <h3>Book Your Stay</h3>
+            <input type="text" id="datePicker" class="form-control" placeholder="Select your check-in and check-out dates">
+            <form id="bookingForm" action="/listings/<%= listing._id %>/book" method="POST" style="display:none;" class="mt-3">
+                <input type="hidden" name="startDate" id="startDate">
+                <input type="hidden" name="endDate" id="endDate">
+                <button type="submit" class="btn btn-brand w-100">Reserve These Dates</button>
+            </form>
+          </div>
+        </div>
+        <div class="col-md-5 d-flex align-items-center justify-content-center mt-3 mt-md-0">
+          <div class="card card-body booking-contact-card">
+            <h5 class="text-center">Questions for the owner?</h5>
+            <button type="button" class="btn btn-brand" data-bs-toggle="modal" data-bs-target="#contactModal">
+              Contact <%= listing.owner.username %>
+            </button>
+          </div>
+        </div>
+      </div>
+    <% } %>
+
+    <div class="reviews-map-grid">
+      <div class="reviews-section">
+        <% if(currUser && !hasReviewed){%>
+          <hr/>
+          <h4>Leave a Review</h4>
+          <form action="/listings/<%= listing._id%>/reviews" method="post" novalidate class="needs-validation">
+            <div class="mb-3 mt-3">
+              <label for="rating" class="form-label">Rating</label>
+              <fieldset class="starability-slot">
+                <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
+                <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                <label for="first-rate1" title="Terrible">1 star</label>
+                <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                <label for="first-rate2" title="Not good">2 stars</label>
+                <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                <label for="first-rate3" title="Average">3 stars</label>
+                <input type="radio" id="first-rate4" name="review[rating]" value="4" /><label for="first-rate4" title="Very good">4 stars</label>
+                <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                <label for="first-rate5" title="Amazing">5 stars</label>
+              </fieldset>
+            </div>
+            <div class="mb-3">
+              <label for="comment" class="form-label">Comment</label>
+              <textarea name="review[comment]" id="comment" cols="30" rows="5" class="form-control" required></textarea>
+              <div class="invalid-feedback">Please add a comment to review</div>
+            </div>
+            <button class="btn btn-brand">Submit</button>
+          </form>
+        <%}%>
+        
+        <% if(listing.reviews.length > 0){%>
+          <hr>
+          <h5><b>All Reviews</b></h5>
+          <% for(review of listing.reviews){%>
+            <div class="card review-card">
+              <div class="card-body">
+                <h5 class="card-title">@<%=review.author.username%></h5>
+                <p class="starability-result card-text" data-rating="<%=review.rating%>"></p>
+                <p class="card-text"><%=review.comment%></p>
+                <form action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=delete" class="mb-3" method="post">
+                  <button class="btn btn-sm mt-3 btn-dark">Delete</button>
+                </form>
+              </div>
+            </div>
+          <% }%>
+        <% }%>
+      </div>
+
+      <div class="map-section">
+        <hr>
+        <h5><b>Where you'll be</b></h5>
+        <div id="map"></div>
+      </div>
+    </div>
+    
+  </div>
 </div>
+
+<!-- Contact Owner Modal -->
+<div class="modal fade" id="contactModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Contact <%= listing.owner.username %></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/listings/<%= listing._id %>/contact" method="POST" novalidate>
+          <div class="mb-3">
+            <label for="message" class="form-label">Your Message:</label>
+            <textarea class="form-control" name="message" id="message" rows="5" required></textarea>
+            <div class="invalid-feedback">A message is required.</div>
+          </div>
+          <button type="submit" class="btn btn-brand">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
+
+<!-- NEW: Image Modal HTML -->
+<div id="imageModal" class="image-modal">
+  <span class="close-modal">&times;</span>
+  <img class="modal-content-image" id="modalImage">
+</div>
+
+<!-- Scripts -->
+<script>
+  function openImageModal(src) {
+    const modal = document.getElementById("imageModal");
+    const modalImg = document.getElementById("modalImage");
+    modal.style.display = "flex";
+    modalImg.src = src;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    flatpickr("#datePicker", {
+        mode: "range",
+        dateFormat: "Y-m-d",
+        minDate: "today",
+        onChange: function(selectedDates) {
+            const [start, end] = selectedDates;
+            const bookingForm = document.getElementById('bookingForm');
+            
+            if (start && end) {
+                document.getElementById('startDate').value = start.toISOString();
+                document.getElementById('endDate').value = end.toISOString();
+                bookingForm.style.display = 'block';
+            } else {
+                bookingForm.style.display = 'none';
+            }
+        }
+    });
+
+    // Close modal when clicking on X or background
+    const modal = document.getElementById("imageModal");
+    const closeModal = document.querySelector(".close-modal");
+
+    if(closeModal) {
+      closeModal.onclick = function() {
+        modal.style.display = "none";
+      }
+    }
+    
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  });
+</script>
 <script src="/javascript/map.js"></script>
-</body>

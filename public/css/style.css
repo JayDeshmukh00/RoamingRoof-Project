@@ -1,124 +1,69 @@
-/* Navbar */
-
-body{
-    font-family:"Plus Jakarta Sans", sans-serif!important;
-    display:flex;
-    flex-direction:column;
-    min-height: 100vh;
-   
-   
-    
+/* --- Global & Body --- */
+html {
+    height: 100%;
 }
-.container{
+
+body {
+    font-family: "Plus Jakarta Sans", sans-serif !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* BACKGROUND: Inspired by your image - a clean, soft, and airy feel */
+    background-color: #f9fafb;
+    /* FIX: Corrected syntax in the gradient (changed ":" to a space) */
+    background-image: radial-gradient(circle at 1% 1%, #e0e7ff 0%, transparent 25%), 
+                      radial-gradient(circle at 99% 99%, #e0e7ff 0%, transparent 25%);
+    color: #1F2937; /* PRIMARY TEXT: Dark slate for high contrast and readability */
+    margin: 0;
+    /* FIX: Added padding to prevent content from hiding behind the fixed navbar */
+    padding-top: 85px; 
+}
+
+.container {
     flex-grow: 1;
 }
-.navbar{
-    height:5rem;
-    background-color:white;
-}
-.nav-link{
-    color: #222222 !important;
-    font-weight:550!important;
-    font-size:large!important;
-}
-.nav-link:hover{
-    font-weight: 400!important;
-}
-.logo{
-  color:#008080;
-}
 
-
-/* footer */
-
-.f-info{
-    height:6rem;
-    background-color:#ebebeb;
-    display:flex;
-    flex-direction:column;
+/* --- Footer --- */
+.f-info {
+    height: auto;
+    padding: 1.5rem 0;
+    background-color: #F3F4F6; /* A slightly darker shade for the footer */
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    justify-content: space-around;
-   
-    
+    gap: 1rem;
+    border-top: 1px solid #E5E7EB;
 }
- 
-.f-info-links a{
-    text-decoration:none;
 
+.f-info-links a {
+    text-decoration: none;
+    color: #6B7280; /* Muted grey for secondary links */
+    transition: color 0.3s ease;
 }
-.f-info-links a:hover{
+
+.f-info-links a:hover {
     text-decoration: underline;
+    color: #1F2937;
 }
 
-.f-info-socials i{
-    font-size:1.2rem;
-    margin-right:1.5rem;
-    margin-top: 0.5rem;
-   
-}
-.f-info-socials i:hover{
-font-size:1rem;
-
-}
-.f-info-socials{
-    width:100%;
-    display:flex;
-    flex-direction:row;
-    justify-content:center;
-    align-items: center;
-    
+.f-info-socials i {
+    font-size: 1.3rem;
+    margin: 0 0.75rem;
+    color: #6B7280;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
-
-/* show page */
-.show-btn{
-    display:flex;
-    flex-direction: row;
-    margin-bottom: 4rem;
-   
-}
-.show-btn button{
-margin-right: 1rem;
-border:0;
+.f-info-socials i:hover {
+    color: #374151; 
+    transform: scale(1.1);
 }
 
-
-
-
-
- 
-/* MAP */
-
-#map{
-    height:400px;
-    width:100vh;
-    border-radius:20px;
-} 
-
-
-/* Custom button styles for navbar */
-.btn-signup-custom {
-    background-color: #FF385C;
-    border-color: #FF385C;
-    color: white;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+/* --- Map & General Styles --- */
+#map {
+    height: 400px;
+    width: 100%;
+    border-radius: 1rem;
+    border: 1px solid #E5E7EB;
 }
-.btn-signup-custom:hover {
-    background-color: #E31B23;
-    border-color: #E31B23;
-    color: white;
-}
-
-.btn-login-custom {
-    border-color: #FF385C;
-    color: #FF385C;
-    background-color: transparent;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-.btn-login-custom:hover {
-    background-color: #FF385C;
-    color: white;
-}
-
 

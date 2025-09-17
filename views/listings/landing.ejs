@@ -6,15 +6,17 @@
   <title>RoamingRoof - Discover Your Next Home</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   <style>
     :root {
-      --primary: #fe424d;
-      --primary-dark: #e03842;
-      --dark: #1a1a1a;
-      --light: #f9f9f9;
-      --grey: #6c757d;
+      /* Updated color palette to match your site's theme */
+      --primary: #1F2937; /* Dark Charcoal */
+      --primary-dark: #111827;
+      --dark: #1F2937;
+      --light: #f9fafb;
+      --grey: #6B7280;
+      --border-color: #E5E7EB;
     }
 
     * {
@@ -24,7 +26,7 @@
     }
 
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Plus Jakarta Sans', sans-serif;
       background-color: var(--light);
       color: var(--dark);
     }
@@ -69,11 +71,11 @@
     }
     .btn-signup {
         background: white;
-        color: var(--primary);
+        color: var(--dark);
     }
     .btn-signup:hover {
-        background: var(--light);
-        border-color: var(--light);
+        background: #f0f0f0;
+        border-color: #f0f0f0;
     }
 
     /* --- Hero Section --- */
@@ -195,7 +197,7 @@
       padding: 2.5rem 2rem;
       border-radius: 16px;
       flex: 1 1 280px;
-      border: 1px solid #eee;
+      border: 1px solid var(--border-color);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .feature-card:hover {
@@ -205,7 +207,7 @@
 
     .feature-card .icon {
       font-size: 2.5rem;
-      color: var(--primary);
+      color: var(--primary); /* Use dark charcoal for icons */
       margin-bottom: 1.5rem;
     }
 
@@ -223,10 +225,15 @@
 
     /* --- Footer --- */
     footer {
-      background: var(--dark);
+      background: #F3F4F6;
       padding: 3rem 2rem;
       text-align: center;
-      color: #aaa;
+      color: #6B7280;
+      border-top: 1px solid var(--border-color);
+    }
+    .footer-brand {
+        font-weight: 700;
+        color: var(--dark);
     }
 
     /* --- Media Queries --- */
@@ -271,7 +278,7 @@
       <p>The perfect space is waiting for you. Discover curated homes for every journey and budget.</p>
       
       <form class="search-form-hero" action="/listings" method="GET">
-        <input name="destination" class="search-input" type="text" placeholder="Search destinations (e.g.,Mumbai)" />
+        <input name="q" class="search-input" type="text" placeholder="Search destinations (e.g., Mumbai)" />
         <button class="search-button-hero" type="submit">
           <i class="fa-solid fa-magnifying-glass"></i>Search
         </button>
@@ -303,7 +310,7 @@
   </section>
 
   <footer>
-    &copy; 2025 RoamingRoof. All rights reserved. Made with ❤️ in Ahmedabad.
+    &copy; 2025 <span class="footer-brand">RoamingRoof</span>. All rights reserved.
   </footer>
 
 </body>

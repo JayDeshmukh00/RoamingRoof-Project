@@ -3,64 +3,63 @@
 <style>
   /* --- General Body & Background --- */
   body {
-    background-color: #f8f9fa; /* Fallback */
-    background-image: linear-gradient(135deg, #ffffff 0%, #f0f2f5 100%);
-    font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f9fafb; /* Fallback */
+    background-image: radial-gradient(circle at 1% 1%, #e0e7ff 0%, transparent 25%), 
+                      radial-gradient(circle at 99% 99%, #e0e7ff 0%, transparent 25%);
+    font-family: 'Plus Jakarta Sans', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
   }
 
   /* --- The Main Authentication Card --- */
   .auth-card {
     background-color: #ffffff;
-    border: 1px solid #e9ecef;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
-    transition: transform 0.3s ease-in-out;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   .auth-card:hover {
     transform: translateY(-5px);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03), 0 10px 20px rgba(0,0,0,0.08);
   }
 
-  /* --- Eye-Catching Gradient Icon (Red like Airbnb) --- */
-  .gradient-icon {
-    background: linear-gradient(45deg, #FF385C, #E31B23);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-fill-color: transparent;
+  /* --- Logo Styling (Monochrome) --- */
+  .auth-logo {
+    width: 60px;
+    height: 60px;
+    color: #1F2937; /* CHANGED: Dark charcoal to match navbar theme */
   }
 
-  /* --- Modern Form Styling (Red like Airbnb) --- */
+  /* --- Modern Form Styling (Monochrome) --- */
   .form-control:focus {
-    border-color: #FF385C;
-    box-shadow: 0 0 0 0.25rem rgba(255, 56, 92, 0.2);
+    border-color: #1F2937;
+    box-shadow: 0 0 0 0.25rem rgba(31, 41, 55, 0.1);
   }
 
   .form-floating > label {
     color: #6c757d;
   }
 
-  /* --- Button Styling (Red like Airbnb) --- */
+  /* --- Button Styling (Monochrome) --- */
   .btn-brand {
-    background-color: #FF385C;
-    border-color: #FF385C;
+    background-color: #1F2937; /* CHANGED: Dark charcoal */
+    border-color: #1F2937;
     color: #fff;
     padding: 0.75rem 1rem;
     transition: background-color 0.2s ease-in-out, transform 0.2s ease;
   }
   .btn-brand:hover {
-    background-color: #E31B23;
-    border-color: #C21807;
+    background-color: #111827; /* CHANGED: Slightly darker on hover */
+    border-color: #111827;
     color: #fff;
     transform: scale(1.02);
   }
   .link-brand {
-      color: #FF385C;
+      color: #1F2937; /* CHANGED: Dark charcoal */
       text-decoration: none;
       font-weight: 600;
   }
   .link-brand:hover {
-      color: #E31B23;
+      color: #111827; /* CHANGED: Slightly darker on hover */
   }
-
 </style>
 
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
@@ -70,9 +69,11 @@
       <div class="card-body p-4 p-md-5">
 
         <div class="text-center mb-4">
-          <i class="fas fa-mountain-sun fa-3x mb-3 gradient-icon"></i>
-          <h2 class="fw-bold text-dark">Join Roaming Roof</h2>
-          <p class="text-muted">Create an account to start your journey.</p>
+          <svg class="auth-logo mb-3" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM15 12H9V9L12 7L15 9V12Z" fill="currentColor"/>
+          </svg>
+          <h2 class="fw-bold text-dark">Create an Account</h2>
+          <p class="text-muted">Join RoamingRoof to start your next journey.</p>
         </div>
 
         <form action="/signup" method="post" class="needs-validation" novalidate>
@@ -80,11 +81,10 @@
           <div class="form-floating mb-3">
             <input name="username" id="username" type="text" class="form-control" placeholder="username" required />
             <label for="username">Username</label>
-            <div class="valid-feedback">Looks good!</div>
           </div>
 
           <div class="form-floating mb-3">
-            <input name="email" id="email" type="email" class="form-control" placeholder="name@example.com" required />
+            <input name="email" id="email" type="email" class="form-control" placeholder="email" required />
             <label for="email">Email</label>
           </div>
 
@@ -94,7 +94,7 @@
           </div>
 
           <div class="d-grid mt-4">
-            <button class="btn btn-brand btn-lg fw-bold" type="submit">Create Account</button>
+            <button class="btn btn-brand btn-lg fw-bold" type="submit">Sign Up</button>
           </div>
         </form>
 
@@ -110,3 +110,4 @@
     </div>
   </div>
 </div>
+

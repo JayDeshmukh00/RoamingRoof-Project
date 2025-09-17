@@ -1,97 +1,166 @@
 <% layout("/layouts/boilerplate") %>
 
-<!-- Filters Section -->
-<div id="filters">
-  <a href="/listings" class="filter"><i class="fa-solid fa-fire"></i><p>Trending</p></a>
-  <a href="/listings?category=Apartments" class="filter"><i class="fa-solid fa-building"></i><p>Apartments</p></a>
-  <a href="/listings?category=Pools" class="filter"><i class="fa-solid fa-person-swimming"></i><p>Pools</p></a>
-  <a href="/listings?category=Farm House" class="filter"><i class="fa-solid fa-tractor"></i><p>Farm House</p></a>
-  <a href="/listings?category=Villas" class="filter"><img src="/icons/villa.png" alt="villa"><p>Villas</p></a>
-  <a href="/listings?category=Cottage" class="filter"><img src="/icons/cottage.png" alt="cottage"><p>Cottage</p></a>
-  <a href="/listings?category=Mountains" class="filter"><img src="/icons/mountain.png" alt="mountain"><p>Mountains</p></a>
-  <a href="/listings?category=Beachfront" class="filter"><img src="/icons/beach.png" alt="beach"><p>Beachfront</p></a>
-  <a href="/listings?category=Heritage" class="filter"><img src="/icons/heritage.png" alt="heritage"><p>Heritage</p></a>
-  <a href="/listings?category=Resorts" class="filter"><img src="/icons/resorts.png" alt="resorts"><p>Resorts</p></a>
-  <a href="/listings?category=Cabins" class="filter"><img src="/icons/cottage.png" alt="cabins"><p>Cabins</p></a>
-  <a href="/listings?category=Castles" class="filter"><i class="fa-solid fa-castle"></i><p>Castles</p></a>
-  <!-- Tax Toggle positioned after Heritage -->
-  <div class="tax-toggle">
-    <div class="form-check-reverse form-switch">
-      <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
-      <label class="form-check-label" for="switchCheckDefault">Total after taxes</label>
+<div class="filter-bar-container">
+    <div id="filters">
+        <a href="/listings" class="filter"><i class="fa-solid fa-fire"></i><p>Trending</p></a>
+        <a href="/listings?category=Apartments" class="filter"><i class="fa-solid fa-building"></i><p>Apartments</p></a>
+        <a href="/listings?category=Pools" class="filter"><i class="fa-solid fa-person-swimming"></i><p>Pools</p></a>
+        <a href="/listings?category=Farm House" class="filter"><i class="fa-solid fa-tractor"></i><p>Farm House</p></a>
+        <a href="/listings?category=Villas" class="filter"><img src="/icons/villa.png" alt="villa"><p>Villas</p></a>
+        <a href="/listings?category=Cottage" class="filter"><img src="/icons/cottage.png" alt="cottage"><p>Cottage</p></a>
+        <a href="/listings?category=Mountains" class="filter"><img src="/icons/mountain.png" alt="mountain"><p>Mountains</p></a>
+        <a href="/listings?category=Beachfront" class="filter"><img src="/icons/beach.png" alt="beach"><p>Beachfront</p></a>
+        <a href="/listings?category=Heritage" class="filter"><img src="/icons/heritage.png" alt="heritage"><p>Heritage</p></a>
+        <a href="/listings?category=Resorts" class="filter"><img src="/icons/resorts.png" alt="resorts"><p>Resorts</p></a>
+        <a href="/listings?category=Cabins" class="filter"><img src="/icons/cottage.png" alt="cabins"><p>Cabins</p></a>
+        <a href="/listings?category=Castles" class="filter"><img src="/icons/cottage.png" alt="cabins"><p>Castles</p></a>
     </div>
-  </div>git s
+    <div class="filter-button-container">
+        <button class="btn btn-light" type="button" data-bs-toggle="modal" data-bs-target="#filterModal">
+            <i class="fa-solid fa-sliders"></i> Filters
+        </button>
+    </div>
 </div>
 
-<hr>
+<div class="container">
+    <hr>
+    <div class="row g-4 mt-3 justify-content-center">
+        <% for (let listing of allListings) { %>
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6">
+                <a href="/listings/<%= listing._id %>" class="listing-link" style="text-decoration: none; color: black;">
+                    <div class="card listing-card h-100" data-category="<%= listing.category %>">
+                        
+                        <!-- Carousel for multiple images -->
+                        <div id="carousel<%= listing._id %>" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner" style="height: 200px; overflow: hidden;">
+                                <% if (listing.images && listing.images.length > 0) { %>
+                                    <% listing.images.forEach((img, index) => { %>
+                                        <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                                            <img src="<%= img.url %>" class="d-block w-100" style="height: 200px; object-fit: cover;" alt="listing-image">
+                                        </div>
+                                    <% }) %>
+                                <% } else { %>
+                                    <div class="carousel-item active">
+                                        <img src="/default.jpg" class="d-block w-100" style="height: 200px; object-fit: cover;" alt="No image">
+                                    </div>
+                                <% } %>
+                            </div>
 
-<!-- Listings Section -->
-<div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4 mt-3 justify-content-center">
-  <% for (let listing of allListings) { %>
-    <a href="/listings/<%= listing._id %>" class="listing-link" style="text-decoration: none; color: black;">
-      <div class="card listing-card" data-category="<%= listing.category %>">
-        <img src="<%= listing.image.url %>" class="card-img-top" alt="listing-image">
-        <div class="card-body">
-          <div class="info-row"><b>Title:</b><%= listing.title %></div>
-          <div class="info-row"><b>Location:</b><%= listing.location %></div>
-          <div class="info-row"><b>Country:</b><%= listing.country %></div>
-          <!-- Removed duplicate category display to prevent double showing -->
-          <!-- <div class="info-row"><b>Category:</b> <%= listing.category %></div> -->
-          <div class="info-row"><b>Price:</b>₹<span class="price-value" data-base-price="<%= listing.price %>"><%= listing.price.toLocaleString("en-IN") %></span>/night</div>
+                            <% if (listing.images && listing.images.length > 1) { %>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carousel<%= listing._id %>" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carousel<%= listing._id %>" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            <% } %>
+                        </div>
+                        <!-- End Carousel -->
+
+                        <div class="card-body">
+                            <div class="info-row"><b>Title:</b> <%= listing.title %></div>
+                            <div class="info-row"><b>Location:</b> <%= listing.location %></div>
+                            <div class="info-row"><b>Country:</b> <%= listing.country %></div>
+                            <div class="info-row">
+                                <b>Price:</b> ₹
+                                <span class="price-value" data-base-price="<%= listing.price %>">
+                                    <%= listing.price.toLocaleString("en-IN") %>
+                                </span>/night
+                            </div>
+
+                            <% if (listing.nextAvailableDate) { %>
+                                <p class="card-text text-secondary mt-2" style="font-size: 1rem;">
+                                    Available after: <b><%= listing.nextAvailableDate %></b>
+                                </p>
+                            <% } %>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="filterModalLabel">Filters</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="GET" action="/listings">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="price_min" class="form-label fw-bold">Min Price</label>
+                            <input type="number" class="form-control" id="price_min" name="price_min" placeholder="₹0" value="<%= (typeof query !== 'undefined' && query.price_min) ? query.price_min : '' %>">
+                        </div>
+                        <div class="col-12">
+                            <label for="price_max" class="form-label fw-bold">Max Price</label>
+                            <input type="number" class="form-control" id="price_max" name="price_max" placeholder="Any" value="<%= (typeof query !== 'undefined' && query.price_max) ? query.price_max : '' %>">
+                        </div>
+                        <div class="col-12">
+                            <label for="sortBy" class="form-label fw-bold">Sort By</label>
+                            <select class="form-select" id="sortBy" name="sortBy">
+                                <option value="" <%= (typeof query !== 'undefined' && !query.sortBy) ? 'selected' : '' %>>Default</option>
+                                <option value="price_asc" <%= (typeof query !== 'undefined' && query.sortBy === 'price_asc') ? 'selected' : '' %>>Price: Low to High</option>
+                                <option value="price_desc" <%= (typeof query !== 'undefined' && query.sortBy === 'price_desc') ? 'selected' : '' %>>Price: High to Low</option>
+                                <option value="location_asc" <%= (typeof query !== 'undefined' && query.sortBy === 'location_asc') ? 'selected' : '' %>>Location (A-Z)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="tax-toggle-modal mt-4">
+                        <div class="form-check-reverse form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+                            <label class="form-check-label" for="switchCheckDefault">Total after taxes</label>
+                        </div>
+                    </div>
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-dark btn-lg">Apply Filters</button>
+                    </div>
+                    <input type="hidden" name="category" value="<%= (typeof query !== 'undefined' && query.category) ? query.category : '' %>">
+                    <input type="hidden" name="q" value="<%= (typeof query !== 'undefined' && query.q) ? query.q : '' %>">
+                </form>
+            </div>
         </div>
-      </div>
-    </a>
-  <% } %>
+    </div>
 </div>
 
 <script>
   const taxSwitch = document.getElementById("switchCheckDefault");
 
   function animatePrice(span, from, to) {
-    const duration = 400;
-    const start = performance.now();
-
-    function update(now) {
-      const progress = Math.min((now - start) / duration, 1);
-      const current = Math.floor(from + (to - from) * progress);
-      span.innerText = current.toLocaleString("en-IN");
-      if (progress < 1) requestAnimationFrame(update);
+    let start = null;
+    const duration = 500;
+    function step(timestamp) {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      const value = Math.floor(from + (to - from) * progress);
+      span.innerText = value.toLocaleString("en-IN");
+      if (progress < 1) requestAnimationFrame(step);
     }
-    requestAnimationFrame(update);
+    requestAnimationFrame(step);
   }
 
   taxSwitch.addEventListener("change", () => {
-    document.querySelectorAll(".price-value").forEach(span => {
-      const basePrice = parseFloat(span.getAttribute("data-base-price"));
-      const newPrice = taxSwitch.checked ? basePrice * 1.18 : basePrice;
-      const currentDisplayed = parseFloat(span.innerText.replace(/,/g, ""));
-      animatePrice(span, currentDisplayed, Math.floor(newPrice));
+    const priceElements = document.querySelectorAll(".price-value");
+    priceElements.forEach(span => {
+      const basePrice = parseInt(span.dataset.basePrice);
+      const tax = Math.floor(basePrice * 0.12);
+      const total = basePrice + tax;
+      const from = parseInt(span.innerText.replace(/,/g, ""));
+      const to = taxSwitch.checked ? total : basePrice;
+      animatePrice(span, from, to);
     });
   });
 
-  // Category filtering
-  const filters = document.querySelectorAll("#filters .filter");
-  const listingLinks = document.querySelectorAll(".listing-link");
-
-  filters.forEach(filter => {
-    filter.addEventListener("click", () => {
-      const category = filter.querySelector("p").innerText.trim();
-
-      // Remove active class from all filters
-      filters.forEach(f => f.classList.remove("active"));
-      // Add active class to clicked filter
-      filter.classList.add("active");
-
-      // Show/hide listings based on category
-      listingLinks.forEach(link => {
-        const card = link.querySelector(".listing-card");
-        const cardCategory = card.getAttribute("data-category");
-        if (category === "Trending" || cardCategory === category) {
-          link.style.display = "";
-        } else {
-          link.style.display = "none";
-        }
-      });
+  document.addEventListener("DOMContentLoaded", () => {
+    const priceElements = document.querySelectorAll(".price-value");
+    priceElements.forEach(span => {
+      span.innerText = parseInt(span.dataset.basePrice).toLocaleString("en-IN");
     });
   });
 </script>

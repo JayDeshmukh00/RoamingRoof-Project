@@ -30,13 +30,19 @@
       </div>
 
       <div class="mt-3">
-        Original image <br>
-        <img src="<%= originalImageUrl %>" alt="Preview Image" style="height: 200px; width: 300px; object-fit: cover; border-radius:10px">
+        <label class="form-label"><b>Current Images</b></label>
+        <div class="row">
+          <% listing.images.forEach(image => { %>
+            <div class="col-md-4 mb-3">
+              <img src="<%= image.url %>" alt="Listing Image" style="height: 200px; width: 100%; object-fit: cover; border-radius:10px">
+            </div>
+          <% }); %>
+        </div>
       </div>
 
       <div class="mt-3">
-        <label for="image" class="form-label"><b>Upload new Image</b></label>
-        <input type="file" name="listing[image]" class="form-control">
+        <label for="images" class="form-label"><b>Upload Additional Images (select multiple)</b></label>
+        <input type="file" name="images" class="form-control" multiple>
       </div>
 
       <div class="row">
@@ -53,12 +59,26 @@
         </div>
       </div>
 
-      <div class="mt-3">
-        <label for="price" class="form-label"><b>Price</b></label>
-        <input name="listing[price]" placeholder="Enter Price" class="form-control" value="<%=listing.price%>" required>
-        <div class="invalid-feedback">Enter the price in correct format</div>
-      </div>
+      <div class="row">
+        <div class="col-md-6 mt-3">
+          <label for="price" class="form-label"><b>Price</b></label>
+          <input name="listing[price]" placeholder="Enter Price" class="form-control" value="<%=listing.price%>" required>
+          <div class="invalid-feedback">Enter the price in correct format</div>
+        </div>
 
+        <div class="col-md-6 mt-3">
+          <label for="category" class="form-label"><b>Category</b></label>
+          <% const categories = ["Trending", "Apartments", "Pools", "Farm House", "Villas", "Cottage", "Mountains", "Beachfront", "Heritage", "Resorts", "Cabins", "Castles"]; %>
+          <select name="listing[category]" class="form-select" id="category" required>
+            <% for(let category of categories) { %>
+              <option value="<%= category %>" <%= (listing.category === category) ? 'selected' : '' %>>
+                <%= category %>
+              </option>
+            <% } %>
+          </select>
+          <div class="invalid-feedback">Please select a category</div>
+        </div>
+      </div>
       <div class="mt-4 text-center">
         <button class="btn btn-danger px-4">Save</button>
       </div>

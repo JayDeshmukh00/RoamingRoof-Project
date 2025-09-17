@@ -1,25 +1,35 @@
-
-
 <style>
+  /* --- Modern Glassy Navbar (Light Theme) --- */
   .navbar-custom {
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-    background-color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.8) !important; /* Semi-transparent white */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid #E5E7EB; /* Light grey border */
     padding: 0.75rem 0;
+    transition: box-shadow 0.3s ease;
+    /* FIX: Ensure navbar is fixed to the top with a shadow */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   }
 
-  /* --- Brand (Red like Airbnb) --- */
+  /* --- Brand --- */
   .navbar-brand-custom .brand-logo {
     height: 38px;
     width: 38px;
     object-fit: contain;
+    filter: none; /* Removed invert filter for light theme */
   }
   .navbar-brand-custom .brand-text {
     font-weight: 700;
     font-size: 1.4rem;
-    color: #FF385C;
+    color: #1F2937; /* CHANGED: Very Dark Slate for the title */
   }
 
-  /* --- Search Bar (Red like Airbnb) --- */
+  /* --- Search Bar --- */
   @media (min-width: 992px) {
     .navbar-center {
       position: absolute;
@@ -33,54 +43,58 @@
   }
   .search-input-custom {
     border-radius: 50px;
-    border: 1px solid #ddd;
+    border: 1px solid #E5E7EB;
+    background-color: #F9FAFB;
+    color: #1F2937;
     padding: 0.6rem 3.5rem 0.6rem 1.5rem;
     height: 48px;
     transition: all 0.3s ease;
   }
+  .search-input-custom::placeholder {
+    color: #9CA3AF;
+  }
   .search-input-custom:focus {
-    border-color: #FF385C;
-    box-shadow: 0 0 0 4px rgba(255, 56, 92, 0.15);
+    border-color: #9CA3AF; 
+    background-color: #FFFFFF;
+    box-shadow: 0 0 0 4px rgba(107, 114, 128, 0.1);
   }
   .search-btn-custom {
     position: absolute;
     top: 50%;
     right: 5px;
     transform: translateY(-50%);
-    background-color: #FF385C;
+    background-color: #1F2937; /* Darker accent color */
     color: #fff;
     border-radius: 50%;
     width: 38px;
     height: 38px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border: none;
     transition: background-color 0.2s ease;
   }
   .search-btn-custom:hover {
-    background-color: #E31B23;
+    background-color: #374151; /* Slightly lighter on hover */
   }
 
   /* --- Nav Links & Buttons --- */
   .nav-link {
     font-weight: 500;
+    color: #374151 !important;
   }
   .nav-link-host {
     border-radius: 20px;
     padding: 0.5rem 1rem !important;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition: background-color 0.2s ease;
   }
   .nav-link-host:hover {
-    background-color: #f0f2f5;
+    background-color: #F3F4F6;
   }
-
-
+  .nav-link-host b {
+    color: #1F2937; /* Darker accent color */
+    font-weight: 600;
+  }
 
   /* --- User Dropdown --- */
-  .user-dropdown .dropdown-toggle::after {
-    display: none;
-  }
+  .user-dropdown .dropdown-toggle::after { display: none; }
   .user-dropdown .dropdown-menu {
     border-radius: 0.75rem;
     border: 1px solid #f0f0f0;
@@ -88,19 +102,44 @@
   }
   .user-icon {
     font-size: 1.5rem;
-    color: #484848;
+    color: #374151;
+  }
+  
+  /* --- Custom Auth Buttons --- */
+  .btn-login-custom {
+    border: 1px solid #D1D5DB;
+    color: #374151;
+    background-color: transparent;
+    transition: all 0.3s ease;
+  }
+  .btn-login-custom:hover {
+    background-color: #F9FAFB;
+    border-color: #9CA3AF;
+  }
+  .btn-signup-custom {
+    background-color: #1F2937; /* Darker accent color */
+    border-color: #1F2937;
+    color: white;
+    transition: all 0.3s ease;
+  }
+  .btn-signup-custom:hover {
+    background-color: #374151; /* Slightly lighter on hover */
+    border-color: #374151;
   }
 </style>
 
-<nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+<!-- Note: I have removed the "sticky-top" class to avoid conflicts with the new "position: fixed" style -->
+<nav class="navbar navbar-expand-lg navbar-custom">
   <div class="container-fluid">
     <a class="navbar-brand navbar-brand-custom d-flex align-items-center gap-2" href="/listings">
-      <img src="/icons/house.png" alt="RoamingRoof Logo" class="brand-logo" />
+      <svg class="brand-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM15 12H9V9L12 7L15 9V12Z" fill="#1F2937"/>
+      </svg>
       <span class="brand-text">RoamingRoof</span>
     </a>
 
     <div class="navbar-center d-none d-lg-block">
-      <form class="search-container" action="/listings/search" method="GET" role="search">
+      <form class="search-container" action="/listings" method="GET" role="search">
         <input class="form-control search-input-custom" type="search" name="q" placeholder="Search destinations" />
         <button class="btn search-btn-custom" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
       </form>
@@ -112,14 +151,14 @@
 
     <div class="collapse navbar-collapse" id="navbarNavContent">
       <div class="d-lg-none my-3">
-        <form class="search-container mx-auto" action="/listings/search" method="GET" role="search">
+        <form class="search-container mx-auto" action="/listings" method="GET" role="search">
           <input class="form-control search-input-custom" type="search" name="q" placeholder="Search destinations" />
           <button class="btn search-btn-custom" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
         </form>
       </div>
 
       <div class="navbar-nav ms-auto d-flex align-items-center gap-2">
-        <a class="nav-link nav-link-host" href="/listings/new"><b style="color:#FF385C">Become a Host</b></a>
+        <a class="nav-link nav-link-host" href="/listings/new"><b>Become a Host</b></a>
 
         <% if(!currUser) { %>
           <a class="btn btn-login-custom rounded-pill" href="/login" role="button">Log In</a>
@@ -141,3 +180,4 @@
     </div>
   </div>
 </nav>
+

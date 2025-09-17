@@ -1,80 +1,109 @@
-<%layout("/layouts/boilerplate")%>
-<body>
-    <div class="row">
-    <div class="col-8 offset-2">
-    <h3 class="mt-2"><b>Host your property</b></h3>
-  <form action="/listings"method="post" novalidate class="needs-validation"enctype="multipart/form-data">
-    <div class="mt-3">
-        <label for="title" class="form-label"><b>Title</b></label>
-        <input type="text"name="listing[title]"placeholder="Enter the title" class="form-control" required>
-         <div class="valid-feedback">title looks good</div>
-    </div>
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  /* --- Professional Form Styling --- */
+  .form-container {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 4px 6px rgba(0,0,0,0.05);
+    border-radius: 1rem;
+    padding: 2.5rem;
+    margin-top: 2rem;
+  }
+
+  .form-title {
+    font-weight: 700;
+    color: #1F2937;
+  }
+
+  .form-label b {
+    color: #374151;
+  }
+
+  .form-control:focus, .form-select:focus {
+    border-color: #1F2937;
+    box-shadow: 0 0 0 0.25rem rgba(31, 41, 55, 0.1);
+  }
+
+  .btn-brand {
+    background-color: #1F2937;
+    border-color: #1F2937;
+    color: #fff;
+    font-weight: 600;
+    padding: 0.75rem;
+    transition: background-color 0.2s ease;
+  }
+  .btn-brand:hover {
+    background-color: #111827;
+    border-color: #111827;
+  }
+</style>
+
+<div class="row">
+  <div class="col-8 offset-2">
+    <div class="form-container">
+      <h3 class="form-title mb-4">Host Your Property</h3>
+      <form action="/listings" method="post" novalidate class="needs-validation" enctype="multipart/form-data">
         
-        <div class="mt-3">
+        <div class="mb-3">
+            <label for="title" class="form-label"><b>Title</b></label>
+            <input type="text" name="listing[title]" placeholder="e.g., Cozy Beachfront Cottage" class="form-control" required>
+            <div class="valid-feedback">Looks good!</div>
+        </div>
+            
+        <div class="mb-3">
             <label for="description" class="form-label"><b>Description</b></label>
-            <textarea name="listing[description]" placeholder="Give Description" class="form-control" required></textarea>
-             <div class="invalid-feedback">please provide description</div>
+            <textarea name="listing[description]" placeholder="Describe your property in detail" class="form-control" required></textarea>
+            <div class="invalid-feedback">A description is required.</div>
         </div>
-       
 
-         <div class="mt-3">
-            <label for="image" class="form-label"><b>Upload Image</b></label>
-            <input type="file"name="listing[image]"class="form-control">
-            required
+        <div class="mb-3">
+            <label for="images" class="form-label"><b>Upload Images (select multiple)</b></label>
+            <input type="file" name="images" class="form-control" multiple required>
+            <div class="invalid-feedback">At least one image is required.</div>
         </div>
-        
-        
+            
         <div class="row">
-
-            
-            <div class="col-md-8 mt-3">
+            <div class="col-md-8 mb-3">
                 <label for="location" class="form-label"><b>Location</b></label>
-                <input type="text" name="listing[location]"placeholder="Enter Location"class="form-control" required>
-                  <div class="invalid-feedback">please enter location</div>
+                <input type="text" name="listing[location]" placeholder="e.g., Goa" class="form-control" required>
+                <div class="invalid-feedback">Please enter a location.</div>
             </div>
-
-            <div class="col-md-4 mt-3">
-                <label for="country"class="form-label"><b>Country</b></label>
-                <input type="text"name="listing[country]"placeholder="Enter Country"class="form-control"required>
-                <div class="invalid-feedback">enter the country field</div>
+            <div class="col-md-4 mb-3">
+                <label for="country" class="form-label"><b>Country</b></label>
+                <input type="text" name="listing[country]" placeholder="e.g., India" class="form-control" required>
+                <div class="invalid-feedback">Please enter a country.</div>
             </div>
-
-
-            
         </div>
-        
-       
-       <div class="mt-3">
-        <label for="price"class="form-label"><b>Price</b></label>
-        <input name="listing[price]"placeholder="Enter Price"class="form-control" required>
-        <div class="invalid-feedback">enter the price in correct format</div>
+            
+        <div class="mb-3">
+            <label for="price" class="form-label"><b>Price (per night)</b></label>
+            <input name="listing[price]" placeholder="e.g., 5000" class="form-control" type="number" required>
+            <div class="invalid-feedback">Please enter a valid price.</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="category" class="form-label"><b>Category</b></label>
+            <select name="listing[category]" class="form-select" required>
+                <option value="" disabled selected>Select a Category</option>
+                <option value="Trending">Trending</option>
+                <option value="Apartments">Apartments</option>
+                <option value="Pools">Pools</option>
+                <option value="Farm House">Farm House</option>
+                <option value="Villas">Villas</option>
+                <option value="Cottage">Cottage</option>
+                <option value="Mountains">Mountains</option>
+                <option value="Beachfront">Beachfront</option>
+                <option value="Heritage">Heritage</option>
+                <option value="Resorts">Resorts</option>
+                <option value="Cabins">Cabins</option>
+                <option value="Castles">Castles</option>
+            </select>
+            <div class="invalid-feedback">Please select a category.</div>
+        </div>
+
+        <button class="btn btn-brand mt-3">Add Listing</button>
+      </form>
     </div>
-
-    <div class="mt-3">
-        <label for="category"class="form-label"><b>Category</b></label>
-        <select name="listing[category]" class="form-control" required>
-            <option value="">Select Category</option>
-            <option value="Trending">Trending</option>
-            <option value="Apartments">Apartments</option>
-            <option value="Pools">Pools</option>
-            <option value="Farm House">Farm House</option>
-            <option value="Villas">Villas</option>
-            <option value="Cottage">Cottage</option>
-            <option value="Mountains">Mountains</option>
-            <option value="Beachfront">Beachfront</option>
-            <option value="Heritage">Heritage</option>
-            <option value="Resorts">Resorts</option>
-            <option value="Cabins">Cabins</option>
-            <option value="Castles">Castles</option>
-        </select>
-        <div class="invalid-feedback">please select a category</div>
-    </div>
-
-
-<br>
-        <button class=" btn btn-danger"> Add</button>
-        <br><br>
-    </form>
+  </div>
 </div>
-</div>
-</body>
