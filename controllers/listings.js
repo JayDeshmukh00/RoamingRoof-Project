@@ -1,26 +1,16 @@
-const nodemailer = require('nodemailer');
 const Booking = require('../models/booking.js');
 const Listing = require("../models/listing.js");
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapToken = process.env.MAPBOX_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
+const { sendEmail } = require('../utils/email');
 
-// Nodemailer setup
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    }
-});
-
-// --- UPDATED INDEX ROUTE ---
+// --- INDEX ROUTE ---
 module.exports.indexroute = async (req, res) => {
     const { category, sortBy, price_min, price_max, q } = req.query;
     let filter = {};
     let sortOptions = {};
 
-    // --- Building Filter and Sort Options ---
     if (category && category !== 'Trending') { filter.category = category; }
     if (price_min || price_max) {
         filter.price = {};
@@ -40,10 +30,7 @@ module.exports.indexroute = async (req, res) => {
     }
 
     const allListings = await Listing.find(filter)
-        .populate({
-            path: 'bookings',
-            match: { endDate: { $gte: new Date() } }
-        })
+        .populate({ path: 'bookings', match: { endDate: { $gte: new Date() } } })
         .sort(sortOptions);
 
     allListings.forEach(listing => {
@@ -62,10 +49,7 @@ module.exports.indexroute = async (req, res) => {
         }
     });
 
-    res.render("./listings/index.ejs", {
-        allListings,
-        query: req.query
-    });
+    res.render("./listings/index.ejs", { allListings, query: req.query });
 };
 
 module.exports.newroute = async (req, res) => {
@@ -74,37 +58,45 @@ module.exports.newroute = async (req, res) => {
 
 module.exports.showroute = async (req, res) => {
     const { id } = req.params;
-    const listing = await Listing.findById(id).populate({ path: "reviews", populate: { path: "author" }, })
+    const listing = await Listing.findById(id)
+        .populate({ path: "reviews", populate: { path: "author" } })
         .populate("owner");
+
     if (!listing) {
         req.flash("error", "The listing you are looking for does not exist");
         return res.redirect("/listings");
     }
+
     let hasReviewed = false;
     if (req.user) {
         hasReviewed = listing.reviews.some(
             (review) => review.author && review.author.equals(req.user._id)
         );
     }
+
     res.render("./listings/show.ejs", { listing, hasReviewed });
 };
 
-// UPDATED: To handle multiple images
+// CREATE LISTING
 module.exports.createroute = async (req, res, next) => {
-    let response = await geocodingClient.forwardGeocode({ query: req.body.listing.location, limit: 1 }).send()
+    let response = await geocodingClient.forwardGeocode({
+        query: req.body.listing.location, limit: 1
+    }).send();
+
     const newListing = new Listing(req.body.listing);
     newListing.owner = req.user._id;
-    // req.files is an array of files from multer
+
     if (req.files) {
         newListing.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     }
+
     newListing.geometry = response.body.features[0].geometry;
     await newListing.save();
     req.flash("success", "New Listing Created Successfully");
     res.redirect("/listings");
 };
 
-// UPDATED: No longer need to create a single preview URL
+// EDIT LISTING
 module.exports.editroute = async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
@@ -112,19 +104,16 @@ module.exports.editroute = async (req, res) => {
         req.flash("error", "The listing you are looking for does not exist");
         return res.redirect("/listings");
     }
-    // The originalImageUrl is no longer needed as the form will handle multiple images
     res.render("./listings/edit.ejs", { listing });
 };
 
-// UPDATED: To handle adding new images to the existing array
+// UPDATE LISTING
 module.exports.updateroute = async (req, res) => {
     const { id } = req.params;
     let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
 
-    // Check if new files have been uploaded
     if (req.files && req.files.length > 0) {
         const newImages = req.files.map(f => ({ url: f.path, filename: f.filename }));
-        // Push the new images into the existing images array
         listing.images.push(...newImages);
         await listing.save();
     }
@@ -133,8 +122,9 @@ module.exports.updateroute = async (req, res) => {
     res.redirect(`/listings/${id}`);
 };
 
+// DELETE LISTING
 module.exports.destroyroute = async (req, res) => {
-    let { id } = req.params;
+    const { id } = req.params;
     await Listing.findByIdAndDelete(id);
     req.flash("success", "Listing Deleted Successfully");
     res.redirect("/listings");
@@ -149,30 +139,33 @@ function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
 }
 
+// --- CONTACT OWNER ---
 module.exports.contactOwner = async (req, res) => {
     const { id } = req.params;
     const { message } = req.body;
     const listing = await Listing.findById(id).populate('owner');
+
     if (!listing) {
         req.flash('error', 'Listing not found.');
         return res.redirect('/listings');
     }
-    const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: listing.owner.email,
-        subject: `Message about your listing: ${listing.title}`,
-        text: `You have a new message from a user (user's email: ${req.user.email}):\n\n"${message}"`
-    };
+
     try {
-        await transporter.sendMail(mailOptions);
+        await sendEmail({
+            to: listing.owner.email,
+            subject: `Message about your listing: ${listing.title}`,
+            text: `You have a new message from ${req.user.email}:\n\n"${message}"`
+        });
         req.flash('success', 'Your message has been sent to the owner!');
     } catch (error) {
-        console.log(error);
+        console.error(error);
         req.flash('error', 'Something went wrong, your message was not sent.');
     }
+
     res.redirect(`/listings/${id}`);
 };
 
+// --- CREATE BOOKING ---
 module.exports.createBooking = async (req, res) => {
     const { id } = req.params;
     const { startDate, endDate } = req.body;
