@@ -14,6 +14,7 @@ const ExpressError=require("./utils/ExpressError");
 const listingRoute=require("./routes/listings.js")
 const reviewRoute=require("./routes/reviews.js")
 const userRoute=require("./routes/users.js");
+const chatbotRoute = require("./routes/chatbot.js");
 const session =require("express-session");
 const MongoStore = require('connect-mongo');
 const flash=require("connect-flash");
@@ -28,6 +29,7 @@ const Booking=require("./models/booking.js");
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"));
 app.use(express.urlencoded({extended:true}));
+app.use(express.json());
 app.use(methodOverrride("_method"));
 app.engine("ejs",ejsMate);
 
@@ -128,6 +130,7 @@ app.get("/terms",(req,res)=>{
 
 app.use("/listings",listingRoute);
 app.use("/listings/:id/reviews",reviewRoute);
+app.use("/chatbot", chatbotRoute);
 app.use("/",userRoute)
 
 

@@ -1,19 +1,20 @@
 <% layout("/layouts/boilerplate") %>
 
+<h2 class="section-title">Categories</h2>
 <div class="filter-bar-container">
     <div id="filters">
         <a href="/listings" class="filter"><i class="fa-solid fa-fire"></i><p>Trending</p></a>
         <a href="/listings?category=Apartments" class="filter"><i class="fa-solid fa-building"></i><p>Apartments</p></a>
         <a href="/listings?category=Pools" class="filter"><i class="fa-solid fa-person-swimming"></i><p>Pools</p></a>
         <a href="/listings?category=Farm House" class="filter"><i class="fa-solid fa-tractor"></i><p>Farm House</p></a>
-        <a href="/listings?category=Villas" class="filter"><img src="/icons/villa.png" alt="villa"><p>Villas</p></a>
-        <a href="/listings?category=Cottage" class="filter"><img src="/icons/cottage.png" alt="cottage"><p>Cottage</p></a>
-        <a href="/listings?category=Mountains" class="filter"><img src="/icons/mountain.png" alt="mountain"><p>Mountains</p></a>
-        <a href="/listings?category=Beachfront" class="filter"><img src="/icons/beach.png" alt="beach"><p>Beachfront</p></a>
-        <a href="/listings?category=Heritage" class="filter"><img src="/icons/heritage.png" alt="heritage"><p>Heritage</p></a>
-        <a href="/listings?category=Resorts" class="filter"><img src="/icons/resorts.png" alt="resorts"><p>Resorts</p></a>
-        <a href="/listings?category=Cabins" class="filter"><img src="/icons/cottage.png" alt="cabins"><p>Cabins</p></a>
-        <a href="/listings?category=Castles" class="filter"><img src="/icons/cottage.png" alt="cabins"><p>Castles</p></a>
+        <a href="/listings?category=Villas" class="filter"><i class="fa-solid fa-home"></i><p>Villas</p></a>
+        <a href="/listings?category=Cottage" class="filter"><i class="fa-solid fa-house-chimney"></i><p>Cottage</p></a>
+        <a href="/listings?category=Mountains" class="filter"><i class="fa-solid fa-mountain"></i><p>Mountains</p></a>
+        <a href="/listings?category=Beachfront" class="filter"><i class="fa-solid fa-umbrella-beach"></i><p>Beachfront</p></a>
+        <a href="/listings?category=Heritage" class="filter"><i class="fa-solid fa-landmark"></i><p>Heritage</p></a>
+        <a href="/listings?category=Resorts" class="filter"><i class="fa-solid fa-hotel"></i><p>Resorts</p></a>
+        <a href="/listings?category=Cabins" class="filter"><i class="fa-solid fa-tree"></i><p>Cabins</p></a>
+        <a href="/listings?category=Castles" class="filter"><i class="fa-solid fa-chess-rook"></i><p>Castles</p></a>
     </div>
     <div class="filter-button-container">
         <button class="btn btn-light" type="button" data-bs-toggle="modal" data-bs-target="#filterModal">
@@ -24,6 +25,7 @@
 
 <div class="container">
     <hr>
+    <h2 class="section-title">Available Listings</h2>
     <div class="row g-4 mt-3 justify-content-center">
         <% for (let listing of allListings) { %>
             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6">
