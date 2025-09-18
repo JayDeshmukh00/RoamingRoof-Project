@@ -48,22 +48,6 @@ app.get("/",(req,res)=>{
 res.render("./listings/landing.ejs")
 })
 
-app.get("/help",(req,res)=>{
-    res.render("./help.ejs")
-})
-
-app.get("/support",(req,res)=>{
-    res.render("./support.ejs")
-})
-
-app.get("/privacy",(req,res)=>{
-    res.render("./privacy.ejs")
-})
-
-app.get("/terms",(req,res)=>{
-    res.render("./terms.ejs")
-})
-
 //Mongo Store
 const store=MongoStore.create({
 mongoUrl:atlasUrl,
@@ -126,10 +110,21 @@ const registeredUser= await User.register(fakeuser,"helloworld");
 res.send(registeredUser);
 })
 
+app.get("/help",(req,res)=>{
+    res.render("./help.ejs")
+})
 
+app.get("/support",(req,res)=>{
+    res.render("./support.ejs")
+})
 
+app.get("/privacy",(req,res)=>{
+    res.render("./privacy.ejs")
+})
 
-
+app.get("/terms",(req,res)=>{
+    res.render("./terms.ejs")
+})
 
 app.use("/listings",listingRoute);
 app.use("/listings/:id/reviews",reviewRoute);

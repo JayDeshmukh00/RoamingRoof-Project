@@ -62,7 +62,20 @@ module.exports.logout=(req,res,next)=>{
 //show bookings
 module.exports.showBookings=async(req,res)=>{
     const bookings=await Booking.find({user:req.user._id}).populate("listing");
-    res.render("./users/bookings.ejs",{bookings});
+
+    // Filter out bookings where listing is null (deleted listings)
+    const filteredBookings = bookings.filter(booking => booking.listing !== null);
+
+    // Also fetch owner bookings
+    const ownerBookings = await Booking.find({}).populate({
+        path: 'listing',
+        match: { owner: req.user._id }
+    }).populate('user');
+
+    // Filter out bookings where listing is null (not owned by current user)
+    const filteredOwnerBookings = ownerBookings.filter(booking => booking.listing !== null);
+
+    res.render("./users/bookings.ejs",{bookings: filteredBookings, ownerBookings: filteredOwnerBookings});
 }
 
 //show account settings
