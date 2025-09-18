@@ -1,19 +1,19 @@
 <style>
-  /* --- Modern Glassy Navbar (Light Theme) --- */
+  /* --- Modern Glassy Navbar (Light Theme Aligned) --- */
   .navbar-custom {
-    background-color: rgba(255, 255, 255, 0.8) !important; /* Semi-transparent white */
+    /* UPDATED: Light blue background for theme alignment */
+    background: rgba(240, 248, 255, 0.95);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid #E5E7EB; /* Light grey border */
+    border-bottom: 1px solid rgba(224, 231, 255, 0.6);
     padding: 0.75rem 0;
     transition: box-shadow 0.3s ease;
-    /* FIX: Ensure navbar is fixed to the top with a shadow */
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1030;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   /* --- Brand --- */
@@ -21,12 +21,15 @@
     height: 38px;
     width: 38px;
     object-fit: contain;
-    filter: none; /* Removed invert filter for light theme */
+    filter: none;
   }
   .navbar-brand-custom .brand-text {
     font-weight: 700;
     font-size: 1.4rem;
-    color: #1F2937; /* CHANGED: Very Dark Slate for the title */
+    /* UPDATED: Darker gradient for better visibility */
+    background: linear-gradient(to right, #000000, #1F2937);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   /* --- Search Bar --- */
@@ -43,28 +46,28 @@
   }
   .search-input-custom {
     border-radius: 50px;
-    border: 1px solid #E5E7EB;
-    background-color: #F9FAFB;
+    border: 2px solid rgba(224, 231, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.8);
     color: #1F2937;
     padding: 0.6rem 3.5rem 0.6rem 1.5rem;
     height: 48px;
     transition: all 0.3s ease;
   }
   .search-input-custom::placeholder {
-    color: #9CA3AF;
+    color: #6B7280;
   }
   .search-input-custom:focus {
-    border-color: #9CA3AF; 
-    background-color: #FFFFFF;
-    box-shadow: 0 0 0 4px rgba(107, 114, 128, 0.1);
+    border-color: #4c8eef;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 0 4px rgba(224, 231, 255, 0.3);
   }
   .search-btn-custom {
     position: absolute;
     top: 50%;
     right: 5px;
     transform: translateY(-50%);
-    background-color: #1F2937; /* Darker accent color */
-    color: #fff;
+    background-color: #e0e7ff;
+    color: #1F2937;
     border-radius: 50%;
     width: 38px;
     height: 38px;
@@ -72,13 +75,16 @@
     transition: background-color 0.2s ease;
   }
   .search-btn-custom:hover {
-    background-color: #374151; /* Slightly lighter on hover */
+    background-color: #c7d2fe;
   }
 
   /* --- Nav Links & Buttons --- */
   .nav-link {
     font-weight: 500;
-    color: #374151 !important;
+    color: #6B7280 !important;
+  }
+  .nav-link:hover {
+      color: #1F2937 !important;
   }
   .nav-link-host {
     border-radius: 20px;
@@ -86,10 +92,10 @@
     transition: background-color 0.2s ease;
   }
   .nav-link-host:hover {
-    background-color: #F3F4F6;
+    background-color: rgba(224, 231, 255, 0.3);
   }
   .nav-link-host b {
-    color: #1F2937; /* Darker accent color */
+    color: #1F2937;
     font-weight: 600;
   }
 
@@ -97,43 +103,60 @@
   .user-dropdown .dropdown-toggle::after { display: none; }
   .user-dropdown .dropdown-menu {
     border-radius: 0.75rem;
-    border: 1px solid #f0f0f0;
+    background: rgba(249, 250, 251, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(224, 231, 255, 0.6);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  .dropdown-item {
+      color: #6B7280;
+  }
+  .dropdown-item:hover {
+      background-color: rgba(224, 231, 255, 0.3);
+      color: #1F2937;
   }
   .user-icon {
     font-size: 1.5rem;
-    color: #374151;
+    color: #6B7280;
   }
-  
+  .dropdown-divider {
+      border-color: rgba(224, 231, 255, 0.6);
+  }
+
   /* --- Custom Auth Buttons --- */
   .btn-login-custom {
-    border: 1px solid #D1D5DB;
-    color: #374151;
+    border: 1px solid rgba(224, 231, 255, 0.6);
+    color: #1F2937;
     background-color: transparent;
     transition: all 0.3s ease;
   }
   .btn-login-custom:hover {
-    background-color: #F9FAFB;
-    border-color: #9CA3AF;
+    background-color: rgba(224, 231, 255, 0.3);
+    border-color: #4c8eef;
   }
   .btn-signup-custom {
-    background-color: #1F2937; /* Darker accent color */
-    border-color: #1F2937;
+    background-color: #4c8eef;
+    border-color: #4c8eef;
     color: white;
     transition: all 0.3s ease;
   }
   .btn-signup-custom:hover {
-    background-color: #374151; /* Slightly lighter on hover */
-    border-color: #374151;
+    background-color: #6b9eff;
+    border-color: #6b9eff;
   }
 </style>
 
-<!-- Note: I have removed the "sticky-top" class to avoid conflicts with the new "position: fixed" style -->
 <nav class="navbar navbar-expand-lg navbar-custom">
   <div class="container-fluid">
     <a class="navbar-brand navbar-brand-custom d-flex align-items-center gap-2" href="/listings">
       <svg class="brand-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM15 12H9V9L12 7L15 9V12Z" fill="#1F2937"/>
+        <defs>
+            <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#1F2937;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#374151;stop-opacity:1" />
+            </linearGradient>
+        </defs>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM15 12H9V9L12 7L15 9V12Z" fill="url(#logo-gradient)"/>
       </svg>
       <span class="brand-text">RoamingRoof</span>
     </a>
@@ -146,7 +169,7 @@
     </div>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavContent">
-      <span class="navbar-toggler-icon"></span>
+      <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNavContent">

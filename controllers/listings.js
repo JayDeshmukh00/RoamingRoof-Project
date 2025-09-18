@@ -152,7 +152,7 @@ module.exports.contactOwner = async (req, res) => {
 
     try {
         await sendEmail({
-            to: listing.owner.email,
+            to:'jay.s.deshmukh125308@gmail.com',
             subject: `Message about your listing: ${listing.title}`,
             text: `You have a new message from ${req.user.email}:\n\n"${message}"`
         });
