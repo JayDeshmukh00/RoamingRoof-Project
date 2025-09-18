@@ -20,6 +20,8 @@ const flash=require("connect-flash");
 const passport=require("passport");
 const LocalStrategy = require("passport-local");
 const User=require("./models/user.js");
+const Listing=require("./models/listing.js");
+const Booking=require("./models/booking.js");
 
 
 
@@ -44,6 +46,22 @@ main().then(()=>console.log("database connection successful"))
 
 app.get("/",(req,res)=>{
 res.render("./listings/landing.ejs")
+})
+
+app.get("/help",(req,res)=>{
+    res.render("./help.ejs")
+})
+
+app.get("/support",(req,res)=>{
+    res.render("./support.ejs")
+})
+
+app.get("/privacy",(req,res)=>{
+    res.render("./privacy.ejs")
+})
+
+app.get("/terms",(req,res)=>{
+    res.render("./terms.ejs")
 })
 
 //Mongo Store

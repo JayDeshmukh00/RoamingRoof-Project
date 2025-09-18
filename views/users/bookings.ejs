@@ -1,0 +1,76 @@
+<% layout("./layouts/boilerplate.ejs") %>
+
+<div class="container bookings-container">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-dark mb-3">My Bookings</h1>
+        <p class="text-muted">Manage your travel reservations and upcoming stays</p>
+    </div>
+
+    <% if(bookings.length === 0) { %>
+        <div class="text-center py-5">
+            <div class="mb-4">
+                <i class="fas fa-calendar-times fa-4x text-muted"></i>
+            </div>
+            <h3 class="text-muted mb-3">No Bookings Yet</h3>
+            <p class="text-muted mb-4">You haven't made any bookings yet. Start exploring amazing destinations!</p>
+            <a href="/listings" class="btn btn-primary btn-lg px-4 py-2">
+                <i class="fas fa-search me-2"></i>Browse Listings
+            </a>
+        </div>
+    <% } else { %>
+        <div class="row g-4">
+            <% bookings.forEach(booking => { %>
+                <div class="col-md-6 col-lg-4">
+                    <div class="booking-card">
+                        <% if(booking.listing.images && booking.listing.images.length > 0) { %>
+                            <img src="<%= booking.listing.images[0].url %>" class="booking-image" alt="<%= booking.listing.title %>">
+                        <% } else { %>
+                            <div class="booking-image bg-light d-flex align-items-center justify-content-center">
+                                <i class="fas fa-image fa-3x text-muted"></i>
+                            </div>
+                        <% } %>
+                        <div class="booking-details">
+                            <h5 class="booking-title"><%= booking.listing.title %></h5>
+                            <p class="booking-location">
+                                <i class="fas fa-map-marker-alt me-1"></i><%= booking.listing.location %>
+                            </p>
+                            <div class="booking-dates">
+                                <div class="d-flex align-items-center mb-1">
+                                    <i class="fas fa-calendar-check me-2 text-primary"></i>
+                                    <span><strong>Check-in:</strong> <%= new Date(booking.startDate).toLocaleDateString() %></span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-calendar-times me-2 text-primary"></i>
+                                    <span><strong>Check-out:</strong> <%= new Date(booking.endDate).toLocaleDateString() %></span>
+                                </div>
+                            </div>
+                            <div class="booking-status <%= booking.status %>">
+                                <i class="fas fa-circle me-1"></i><%= booking.status.charAt(0).toUpperCase() + booking.status.slice(1) %>
+                            </div>
+                        </div>
+                        <div class="booking-footer">
+                            <a href="/listings/<%= booking.listing._id %>" class="d-inline-flex align-items-center">
+                                <i class="fas fa-eye me-1"></i>View Listing
+                            </a>
+                            <form action="/bookings/<%= booking._id %>/update-dates" method="POST">
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <label for="startDate-<%= booking._id %>" class="form-label">Start Date</label>
+                                        <input type="date" id="startDate-<%= booking._id %>" name="startDate" value="<%= booking.startDate.toISOString().split('T')[0] %>" required class="form-control">
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="endDate-<%= booking._id %>" class="form-label">End Date</label>
+                                        <input type="date" id="endDate-<%= booking._id %>" name="endDate" value="<%= booking.endDate.toISOString().split('T')[0] %>" required class="form-control">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100 mt-2">
+                                    <i class="fas fa-save me-1"></i>Update Dates
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
+</div>

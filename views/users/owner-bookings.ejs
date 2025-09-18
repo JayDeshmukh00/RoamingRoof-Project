@@ -1,0 +1,66 @@
+<% layout("./layouts/boilerplate.ejs") %>
+
+<div class="container bookings-container">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold" style="color: #000000;">My Listings' Bookings</h1>
+        <p class="text-muted">View all bookings for your property listings</p>
+    </div>
+
+    <% if(ownerBookings.length === 0) { %>
+        <div class="text-center py-5">
+            <div class="mb-4">
+                <i class="fas fa-calendar-times fa-4x text-muted"></i>
+            </div>
+            <h3 class="text-muted mb-3">No Bookings Yet</h3>
+            <p class="text-muted mb-4">Your listings haven't received any bookings yet.</p>
+            <a href="/listings/new" class="btn btn-dark btn-lg px-4 py-2">
+                <i class="fas fa-plus me-2"></i>Create New Listing
+            </a>
+        </div>
+    <% } else { %>
+        <div class="row g-4">
+            <% ownerBookings.forEach(booking => { %>
+                <div class="col-md-6 col-lg-4">
+                    <div class="booking-card">
+                        <% if(booking.listing.images && booking.listing.images.length > 0) { %>
+                            <img src="<%= booking.listing.images[0].url %>" class="booking-image" alt="<%= booking.listing.title %>">
+                        <% } else { %>
+                            <div class="booking-image bg-light d-flex align-items-center justify-content-center">
+                                <i class="fas fa-image fa-3x text-muted"></i>
+                            </div>
+                        <% } %>
+                        <div class="booking-details">
+                            <h5 class="booking-title"><%= booking.listing.title %></h5>
+                            <p class="booking-location">
+                                <i class="fas fa-map-marker-alt me-1"></i><%= booking.listing.location %>
+                            </p>
+                            <div class="booking-dates">
+                                <div class="d-flex align-items-center mb-1">
+                                    <i class="fas fa-calendar-check me-2 text-dark"></i>
+                                    <span><strong>Check-in:</strong> <%= new Date(booking.startDate).toLocaleDateString() %></span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-calendar-times me-2 text-dark"></i>
+                                    <span><strong>Check-out:</strong> <%= new Date(booking.endDate).toLocaleDateString() %></span>
+                                </div>
+                            </div>
+                            <div class="booking-status <%= booking.status %>">
+                                <i class="fas fa-circle me-1"></i><%= booking.status.charAt(0).toUpperCase() + booking.status.slice(1) %>
+                            </div>
+                            <div class="mt-2">
+                                <small class="text-muted">
+                                    <i class="fas fa-user me-1"></i>Booked by: <%= booking.user.username || booking.user.email %>
+                                </small>
+                            </div>
+                        </div>
+                        <div class="booking-footer">
+                            <a href="/listings/<%= booking.listing._id %>" class="d-inline-flex align-items-center">
+                                <i class="fas fa-eye me-1"></i>View Listing
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
+</div>

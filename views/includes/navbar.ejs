@@ -119,6 +119,19 @@
     font-size: 1.5rem;
     color: #6B7280;
   }
+  .user-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: #000000;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+  }
   .dropdown-divider {
       border-color: rgba(224, 231, 255, 0.6);
   }
@@ -189,11 +202,19 @@
         <% } else { %>
           <div class="nav-item dropdown user-dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-              <i class="fa-solid fa-circle-user user-icon"></i>
+              <div class="user-avatar">
+                <%= currUser.username.charAt(0).toUpperCase() %>
+              </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="#">My Bookings</a></li>
-              <li><a class="dropdown-item" href="#">Account Settings</a></li>
+              <li><a class="dropdown-item" href="/bookings">My Bookings</a></li>
+              <li><a class="dropdown-item" href="/account-settings">Account Settings</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/help">Help Center</a></li>
+              <li><a class="dropdown-item" href="/support">Contact Support</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/privacy">Privacy Policy</a></li>
+              <li><a class="dropdown-item" href="/terms">Terms of Service</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="/logout">Logout</a></li>
             </ul>
